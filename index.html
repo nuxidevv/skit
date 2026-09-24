@@ -1668,7 +1668,6 @@
 <main>
   <section class="hero">
     <div class="badges-row">
-      <div class="badge"><span class="dot"></span> <span id="onlineCount">--</span> en ligne</div>
       <div class="badge">Top #1 Searcher FR</div>
     </div>
 
@@ -2257,33 +2256,6 @@ function animateCounter() {
   }
   requestAnimationFrame(step);
 }
-
-(function onlineCounter() {
-  const el = document.getElementById("onlineCount");
-  if (!el) return;
-
-  let base = Math.floor(Math.random() * 360) + 120;
-  let current = base;
-
-  function format(n) {
-    return n.toLocaleString("fr-FR");
-  }
-
-  function update() {
-    el.textContent = format(current);
-  }
-
-  update();
-
-  function tick() {
-    const delta = Math.floor(Math.random() * 9) - 4;
-    current = Math.max(50, current + delta);
-    update();
-    setTimeout(tick, 2000 + Math.random() * 3000);
-  }
-
-  setTimeout(tick, 2500);
-})();
 
 const progressBar = document.getElementById("progressBar");
 let progressTimer = null;
