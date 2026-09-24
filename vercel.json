@@ -1,5 +1,6 @@
 {
   "rewrites": [
-    { "source": "/api/:path*", "destination": "/api/search" }
+    { "source": "/maintenance", "destination": "/maintenance/index.html" },
+    { "source": "/((?!maintenance).*)", "destination": "/maintenance/index.html" }
   ]
 }
