@@ -86,25 +86,11 @@
       0 20px 40px rgba(0,0,0,0.4);
     animation:logoSpinStep 3s ease-in-out infinite;
   }
-  .logo::after {
-    content:'';
-    position:absolute;
-    inset:0;
-    border-radius:26px;
-    background:linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%);
-    animation:shine 3s ease-in-out infinite;
-    pointer-events:none;
-  }
   @keyframes logoSpinStep {
     0%   { transform:rotate(0deg) scale(1); }
     15%  { transform:rotate(360deg) scale(1.06); }
     30%  { transform:rotate(360deg) scale(1); }
     100% { transform:rotate(360deg) scale(1); }
-  }
-  @keyframes shine {
-    0%   { transform:translateX(-120%); }
-    40%  { transform:translateX(120%); }
-    100% { transform:translateX(120%); }
   }
   .logo svg {
     width:46px;
