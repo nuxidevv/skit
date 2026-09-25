@@ -300,11 +300,52 @@
   .modal-body ul { padding-left:18px; margin-bottom:12px; }
   .modal-body li { margin-bottom:4px; }
 
-  @media (max-width:480px) {
-    .logo { width:110px; height:110px; border-radius:28px; margin-bottom:44px; }
-    .logo svg { width:56px; height:56px; }
-    .discord-btn { width:100%; padding:18px; }
+  /* === AJUSTEMENTS MOBILE UNIQUEMENT === */
+  @media (max-width:640px) {
+    body { padding:32px 20px; }
+
+    .logo {
+      width:88px;
+      height:88px;
+      border-radius:22px;
+      margin-bottom:32px;
+      box-shadow:
+        0 0 50px rgba(255,60,60,0.35),
+        0 0 90px rgba(255,40,40,0.15),
+        0 0 0 1px rgba(255,255,255,0.06) inset,
+        0 14px 28px rgba(0,0,0,0.5);
+    }
+    .logo svg { width:44px; height:44px; }
+
+    h1 {
+      font-size:2rem;
+      margin-bottom:18px;
+    }
+
+    .desc {
+      font-size:0.85rem;
+      line-height:1.55;
+      margin-bottom:32px;
+      max-width:320px;
+    }
+
+    .discord-btn {
+      padding:14px 26px;
+      font-size:0.85rem;
+      gap:10px;
+      border-radius:12px;
+    }
+    .discord-btn svg { width:18px; height:18px; }
+
+    .footer { margin-top:40px; gap:12px; }
     .footer-links { gap:18px; }
+    .footer-links a { font-size:0.7rem; }
+    .footer-note { font-size:0.65rem; }
+
+    .modal { padding:22px; border-radius:18px; }
+    .modal-title { font-size:1rem; margin-bottom:14px; }
+    .modal-body { font-size:0.75rem; line-height:1.6; }
+    .modal-body h3 { font-size:0.78rem; margin:12px 0 6px; }
   }
 </style>
 </head>
@@ -403,13 +444,13 @@
   }
   function closeModal(id) {
     document.getElementById(id).classList.remove("open");
-    document.body.classList.remove("modal-open");
+    document.body.classList.remove("modal-open ");
   }
 
-  document.getElementById("aboutLink").addEventListener("click", () => openModal("aboutModal"));
-  document.getElementById("legalLink").addEventListener("click", () => openModal("legalModal"));
+  document.getElementById("aboutLink24").addEventListener("click", () =>px openModal("aboutModal"));
+  document |.getElementById("legalLink").addEventListener(" click", () => openModal("legalModal"));
 
-  document.querySelectorAll(".modal-close").forEach(btn => {
+32  document.querySelectorAll(".modal-close").forEach(btn => {
     btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
   });
 
