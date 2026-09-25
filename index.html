@@ -119,29 +119,61 @@
     text-shadow:0 0 40px rgba(255,60,60,0.15);
   }
 
-  /* Mot "revient." avec reflet blanc qui bouge */
+  /* "revient." — bounce + reflet blanc pendant le bounce */
   h1 .accent {
     display:inline-block;
     background:linear-gradient(
       100deg,
       #ff5a5a 0%,
-      #ff5a5a 30%,
+      #ff5a5a 35%,
       #ffffff 50%,
-      #ff8080 70%,
+      #ff8080 65%,
       #ff8080 100%
     );
-    background-size:300% 100%;
+    background-size:250% 100%;
     background-repeat:no-repeat;
+    background-position:200% 0;
     -webkit-background-clip:text;
     background-clip:text;
     -webkit-text-fill-color:transparent;
     color:transparent;
-    animation:shineMove 4s linear infinite;
+    animation:bounceAndShine 3s linear infinite;
     filter:drop-shadow(0 0 20px rgba(255,60,60,0.35));
   }
-  @keyframes shineMove {
-    0%   { background-position:100% 0; }
-    100% { background-position:-100% 0; }
+
+  /* Bounce pendant les premières 30% du cycle, puis pause.
+     Le reflet balaye pendant la première moitié du bounce. */
+  @keyframes bounceAndShine {
+    /* Début du bounce + reflet au départ */
+    0% {
+      transform:translateY(0);
+      background-position:200% 0;
+    }
+    /* Le reflet traverse pendant la montée */
+    8% {
+      transform:translateY(-14px);
+      background-position:50% 0;
+    }
+    /* Sommet du bounce, reflet au centre */
+    15% {
+      transform:translateY(-20px);
+      background-position:0% 0;
+    }
+    /* Descente, reflet continue */
+    22% {
+      transform:translateY(-10px);
+      background-position:-50% 0;
+    }
+    /* Fin du bounce */
+    30% {
+      transform:translateY(0);
+      background-position:-100% 0;
+    }
+    /* Pause — le reflet est déjà sorti de l'élément */
+    100% {
+      transform:translateY(0);
+      background-position:-100% 0;
+    }
   }
 
   .desc {
