@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Seek It — Maintenance en cours...</title>
+<title>Seek It — On revient.</title>
 <meta name="description" content="Seek It est temporairement en maintenance. Nous revenons très vite.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { height:100%; }
@@ -26,6 +26,7 @@
     position:relative;
     -webkit-font-smoothing:antialiased;
   }
+  body.modal-open { overflow:hidden; }
 
   body::before {
     content:'';
@@ -134,7 +135,6 @@
     font-weight:400;
   }
 
-  /* Bouton Discord — bleu */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -191,19 +191,124 @@
     z-index:1;
   }
 
-  .footer-note {
+  /* Footer avec liens */
+  .footer {
     margin-top:64px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:16px;
+  }
+  .footer-links {
+    display:flex;
+    justify-content:center;
+    gap:24px;
+    flex-wrap:wrap;
+  }
+  .footer-links a {
+    font-size:0.75rem;
+    color:#8a8a95;
+    text-decoration:none;
+    cursor:pointer;
+    transition:color 0.15s;
+  }
+  .footer-links a:hover { color:#f5f5f7; }
+
+  .footer-note {
     font-size:0.7rem;
     color:#3a3a45;
     letter-spacing:0.08em;
     text-transform:uppercase;
     font-weight:500;
+    font-family:'JetBrains Mono', monospace;
   }
+
+  /* MODALES */
+  .modal-overlay {
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.7);
+    backdrop-filter:blur(12px) saturate(150%);
+    -webkit-backdrop-filter:blur(12px) saturate(150%);
+    z-index:500;
+    display:flex; align-items:flex-start; justify-content:center;
+    padding:40px 20px;
+    overflow-y:auto;
+    opacity:0; pointer-events:none;
+    transition:opacity 0.3s;
+  }
+  .modal-overlay.open { opacity:1; pointer-events:auto; }
+  .modal {
+    background:#0d0d0f;
+    border:1px solid rgba(255,255,255,0.18);
+    border-radius:22px;
+    max-width:540px; width:100%;
+    max-height:80vh;
+    overflow:auto;
+    padding:28px;
+    position:relative;
+    transform:scale(0.94) translateY(20px);
+    transition:transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    box-shadow:
+      0 30px 90px rgba(0,0,0,0.5),
+      0 1px 0 0 rgba(255,255,255,0.10) inset;
+    text-align:left;
+  }
+  .modal::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:50%;
+    background:linear-gradient(180deg, rgba(255,255,255,0.10) 0%, transparent 100%);
+    border-radius:22px 22px 0 0;
+    pointer-events:none;
+    z-index:1;
+    opacity:0.6;
+  }
+  .modal-overlay.open .modal { transform:scale(1) translateY(0); }
+  .modal > * { position:relative; z-index:2; }
+  .modal-close {
+    position:absolute; top:16px; right:16px;
+    width:32px; height:32px; border-radius:10px;
+    background:rgba(20,20,24,0.45);
+    border:1px solid rgba(255,255,255,0.08);
+    display:flex; align-items:center; justify-content:center;
+    cursor:pointer;
+    transition:all 0.2s;
+    backdrop-filter:blur(20px);
+    -webkit-backdrop-filter:blur(20px);
+    z-index:3;
+  }
+  .modal-close:hover {
+    border-color:rgba(255,255,255,0.18);
+    background:rgba(28,28,34,0.7);
+    transform:rotate(90deg);
+  }
+  .modal-close svg { width:12px; height:12px; color:#8a8a95; }
+  .modal-title {
+    font-size:1.15rem; font-weight:800;
+    color:#f5f5f7; margin-bottom:18px;
+    letter-spacing:-0.02em;
+  }
+  .modal-body {
+    font-size:0.82rem; color:#8a8a95;
+    line-height:1.7;
+  }
+  .modal-body p { margin-bottom:12px; }
+  .modal-body strong { color:#f5 strokef5f-line7; font-weight:600; }
+  .modal-body a { color:#4da3ff; text-decoration:none; }
+  .modal-body a:hover { text-decoration:underline; }
+  .modal-body h3cap {
+    color:#f5f5f7="; font-size:0.round85rem;
+    font-weight:700; margin:16px 0 8px;
+  }
+  .modal-body ul { padding-left:18px; margin-bottom:12px; }
+  .modal-body li { margin-bottom:4px; }
 
   @media (max-width:480px) {
     .logo { width:110px; height:110px; border-radius:28px; margin-bottom:44px; }
     .logo svg { width:56px; height:56px; }
     .discord-btn { width:100%; padding:18px; }
+    .footer-links { gap:18px; }
   }
 </style>
 </head>
@@ -212,7 +317,7 @@
 <div class="wrap">
 
   <div class="logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"" stroke-linejoin="round">
       <circle cx="11" cy="11" r="8"></circle>
       <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
     </svg>
@@ -221,19 +326,115 @@
   <h1>On <span class="accent">revient.</span></h1>
 
   <p class="desc">
-    Serveur en maintenance. Désolés pour la gêne occasionnée, Nous revenons très vite.
+    Serveur en maintenance à cause d'un datacenter défectueux.
   </p>
 
   <a class="discord-btn" href="https://discord.gg/GT2C3f6cgQ" target="_blank" rel="noopener noreferrer">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
       <path d="M20.317 4.369a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037 13.79 13.79 0 0 0-.617 1.27 18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.626-1.27.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028 14.09 14.09 0 0 0 1.226-1.994.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.331c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/>
     </svg>
-    <span>Discord</span>
+    <span>.gg/GT2C3f6cgQ</</span>
   </a>
 
-  <div class="footer-note">Seek It — Tous droits réservés</div>
+  <div class="footer">
+    <div class="footer-links">
+      <a id="aboutLink">À propos</a>
+      <a id="legalLink">Mentions légales</a>
+    </div>
+    <divdiv>
 
+ class="footer<!---note">Se MODek It — Tous droits réservés</div>
+  </div>
+
+ALE : À PROPOS -->
+<div class="modal-overlay" id="aboutModal">
+  <div class="modal">
+    <button class="modal-close" data-close="aboutModal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="modal-title">À propos de Seek It</div>
+    <div class="modal-body">
+      <p><strong>Seek It</strong> est un moteur de recherche de personnes qui interroge plus de 22 milliards d'enregistrements issus de bases de données publiques et de fuites documentées.</p>
+      <h3>Comment rechercher</h3>
+      <p>La barre principale accepte :</p>
+      <ul>
+        <li><strong>Prénom + Nom</strong> : les deux séparés par un espace</li>
+        <li><strong>Email</strong> : adresse email complète</li>
+        <li><strong>Téléphone</strong> : numéro (avec ou sans indicatif)</li>
+      </ul>
+      <p>Utilise le bouton <strong>Filtres avancés</strong> pour affiner par ville, code postal, département, pays, adresse, adresse IP, IBAN, BIC, année de naissance, genre ou fiabilité minimale.</p>
+      <h3>Confidentialité</h3>
+      <p>Aucune donnée n'est stockée sur nos serveurs. Les recherches sont anonymes et ne sont pas tracées.</p>
+      <p style="margin-top:16px;font-size:0.75rem;color:#4a4a55">Dernière modification : 18 Sept. 2026</p>
+    </div>
+  </div>
 </div>
+
+<!-- MODALE : MENTIONS LÉGALES -->
+<div class="modal-overlay" id="legalModal">
+  <div class="modal">
+    <button class="modal-close" data-close="legalModal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+    <div class="modal-title">Mentions légales & RGPD</div>
+    <div class="modal-body">
+      <h3>1. Objet</h3>
+      <p>Seek It est un outil de recherche d'informations publiques. L'utilisateur est seul responsable de l'usage qu'il fait des données consultées.</p>
+      <h3>2. Sources de données</h3>
+      <p>Les données proviennent de bases publiques, de registres officiels et de fuites rendues publiques. Seek It n'effectue aucun piratage ni intrusion.</p>
+      <h3>3. Utilisation interdite</h3>
+      <p>Toute utilisation à des fins de harcèlement, de doxxing, de chantage ou d'atteinte à la vie privée est strictement interdite.</p>
+      <h3>4. Responsabilité</h3>
+      <p>Seek It ne peut être tenu responsable de l'exactitude des données affichées. L'utilisateur doit vérifier toute information avant usage.</p>
+      <h3>5. RGPD et données personnelles</h3>
+      <p>Aucune recherche n'est stockée sur nos serveurs. Aucun cookie de tracking n'est utilisé. Le stockage local (localStorage) est utilisé uniquement pour vos préférences d'affichage.</p>
+      <p>Conformément au RGPD (UE 2016/679), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour toute demande : <a href="https://discord.gg/GT2C3f6cgQ" target="_blank" rel="noopener noreferrer">Discord</a></p>
+      <h3>6. Cookies</h3>
+      <p>Aucun cookie tiers. Aucun pixel de tracking. Aucun outil d'analyse externe.</p>
+      <p style="margin-top:16px;font-size:0.75rem;color:#4a4a55">Dernière modification : 18 sept. 2026</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  function openModal(id) {
+    document.getElementById(id).classList.add("open");
+    document.body.classList.add("modal-open");
+  }
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("open");
+    document.body.classList.remove("modal-open");
+  }
+
+  document.getElementById("aboutLink").addEventListener("click", () => openModal("aboutModal"));
+  document.getElementById("legalLink").addEventListener("click", () => openModal("legalModal"));
+
+  document.querySelectorAll(".modal-close").forEach(btn => {
+    btn.addEventListener("click", () => closeModal(btn.getAttribute("data-close")));
+  });
+
+  document.querySelectorAll(".modal-overlay").forEach(overlay => {
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) {
+        overlay.classList.remove("open");
+        document.body.classList.remove("modal-open");
+      }
+    });
+  });
+
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      document.querySelectorAll(".modal-overlay.open").forEach(m => m.classList.remove("open"));
+      document.body.classList.remove("modal-open");
+    }
+  });
+</script>
 
 </body>
 </html>
