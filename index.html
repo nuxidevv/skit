@@ -145,6 +145,7 @@
     font-weight:400;
   }
 
+  /* BOUTON LIQUID GLASS */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -152,39 +153,55 @@
     gap:14px;
     padding:18px 36px;
     border-radius:14px;
-    background:linear-gradient(180deg, #5865F2 0%, #4752C4 100%);
+    background:rgba(255,255,255,0.06);
     color:#ffffff;
     font-family:inherit;
     font-size:0.98rem;
     font-weight:700;
     letter-spacing:0.01em;
     text-decoration:none;
-    border:1px solid rgba(255,255,255,0.18);
+    border:1px solid rgba(255,255,255,0.35);
     cursor:pointer;
     position:relative;
     overflow:hidden;
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
     box-shadow:
-      0 12px 32px rgba(88,101,242,0.40),
-      0 1px 0 0 rgba(255,255,255,0.25) inset,
-      0 -1px 0 0 rgba(0,0,0,0.2) inset;
+      0 8px 32px rgba(0,0,0,0.35),
+      0 1px 0 0 rgba(255,255,255,0.35) inset,
+      0 -1px 0 0 rgba(0,0,0,0.15) inset;
     transition:all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
+  /* Reflet en haut du bouton */
   .discord-btn::before {
     content:'';
     position:absolute;
     top:0; left:0; right:0;
     height:50%;
-    background:linear-gradient(180deg, rgba(255,255,255,0.22) 0%, transparent 100%);
+    background:linear-gradient(180deg, rgba(255,255,255,0.20) 0%, transparent 100%);
     border-radius:14px 14px 0 0;
+    pointer-events:none;
+  }
+  /* Petit halo lumineux animé */
+  .discord-btn::after {
+    content:'';
+    position:absolute;
+    top:0; left:-100%;
+    width:60%; height:100%;
+    background:linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.18) 50%, transparent 100%);
+    transition:left 0.8s cubic-bezier(0.22, 1, 0.36, 1);
     pointer-events:none;
   }
   .discord-btn:hover {
     transform:translateY(-3px) scale(1.03);
+    background:rgba(255,255,255,0.10);
+    border-color:rgba(255,255,255,0.55);
     box-shadow:
-      0 22px 52px rgba(88,101,242,0.65),
-      0 1px 0 0 rgba(255,255,255,0.30) inset,
-      0 -1px 0 0 rgba(0,0,0,0.2) inset;
+      0 20px 48px rgba(255,255,255,0.15),
+      0 1px 0 0 rgba(255,255,255,0.45) inset,
+      0 -1px 0 0 rgba(0,0,0,0.15) inset;
   }
+  .discord-btn:hover::after { left:200%; }
   .discord-btn:active {
     transform:translateY(0) scale(0.99);
   }
