@@ -125,21 +125,22 @@
     background:linear-gradient(
       100deg,
       #ff5a5a 0%,
-      #ff5a5a 35%,
+      #ff5a5a 30%,
       #ffffff 50%,
-      #ff8080 65%,
+      #ff8080 70%,
       #ff8080 100%
     );
-    background-size:250% 100%;
+    background-size:300% 100%;
+    background-repeat:no-repeat;
     -webkit-background-clip:text;
     background-clip:text;
     -webkit-text-fill-color:transparent;
     color:transparent;
-    animation:shineMove 3.5s ease-in-out infinite;
+    animation:shineMove 4s linear infinite;
     filter:drop-shadow(0 0 20px rgba(255,60,60,0.35));
   }
   @keyframes shineMove {
-    0%   { background-position:200% 0; }
+    0%   { background-position:100% 0; }
     100% { background-position:-100% 0; }
   }
 
