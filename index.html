@@ -118,12 +118,29 @@
     color:#ffffff;
     text-shadow:0 0 40px rgba(255,60,60,0.15);
   }
+
+  /* Mot "revient." avec reflet blanc qui bouge */
   h1 .accent {
-    background:linear-gradient(135deg, #ff5a5a 0%, #ff8080 100%);
+    display:inline-block;
+    background:linear-gradient(
+      100deg,
+      #ff5a5a 0%,
+      #ff5a5a 35%,
+      #ffffff 50%,
+      #ff8080 65%,
+      #ff8080 100%
+    );
+    background-size:250% 100%;
     -webkit-background-clip:text;
     background-clip:text;
     -webkit-text-fill-color:transparent;
     color:transparent;
+    animation:shineMove 3.5s ease-in-out infinite;
+    filter:drop-shadow(0 0 20px rgba(255,60,60,0.35));
+  }
+  @keyframes shineMove {
+    0%   { background-position:200% 0; }
+    100% { background-position:-100% 0; }
   }
 
   .desc {
@@ -377,7 +394,7 @@
       <a id="aboutLink" href="#">À propos</a>
       <a id="legalLink" href="#">Mentions légales</a>
     </div>
-   <div class="footer-note">Fait avec ❤️ par <strong style="color:#00e07a;font-weight:700;">Nuhi</strong> &amp; <strong style="color:#00e07a;font-weight:700;">Silentlinux</strong></div>
+    <div class="footer-note">Fait avec ❤️ par <strong style="color:#00e07a;font-weight:700;">Nuhi</strong> &amp; <strong style="color:#00e07a;font-weight:700;">Silentlinux</strong></div>
     <div class="footer-note">Seek It © 2026 - Tous droit réservés</div>
   </div>
 
