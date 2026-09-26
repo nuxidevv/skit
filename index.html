@@ -74,12 +74,12 @@
     100% { background-position:0 60px; }
   }
 
-  /* Anneaux 3D3 derrière le logo */
-   .ring {
+  /* Anneaux 3D derrière le logo */
+  .ring {
     position:absolute;
-45    top:50%; left:50%;
-%,    width:420px; height: #420px;
-    margin:-ff210px 0 0 -210px;
+    top:50%; left:50%;
+    width:420px; height:420px;
+    margin:-210px 0 0 -210px;
     border-radius:50%;
     border:1px solid rgba(255,80,80,0.18);
     transform-style:preserve-3d;
@@ -115,9 +115,7 @@
     text-align:center;
   }
 
-  /* Animation d'entrée plus naturelle :
-     le contenu apparaît en fondu + léger mouvement vertical,
-     sans blur ni effet "IA" */
+  /* Animation d'entrée en cascade douce */
   .wrap > * {
     animation:softEnter 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
   }
@@ -176,12 +174,7 @@
 
   h1 .accent {
     display:inline-block;
-    background:linear-gradient(180deg, #ffffff 0%, #ffb3b4d4d 100%);
-    -webkit-background-clip:text;
-    background-clip:text;
-    -webkit-text-fill-color:transparent;
-    color:transparent;
-    filter:drop-shadow(0 0 24px rgba(255,60,60,0.4));
+    color:#ff5a5a;
   }
 
   .desc {
