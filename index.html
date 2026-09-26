@@ -25,7 +25,6 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* halo rouge diffus */
   body::before {
     content:'';
     position:fixed;
@@ -74,31 +73,46 @@
     100% { background-position:0 60px; }
   }
 
-  /* Sphères flottantes */
+  /* === GLOBES TRANSPARENTS GRIS === */
   .orb {
     position:absolute;
     border-radius:50%;
-    background:radial-gradient(circle at 30% 30%,
-      rgba(255,120,120,0.9) 0%,
-      rgba(200,40,40,0.5) 40%,
-      rgba(120,10,10,0.1) 70%,
-      transparent 100%);
+    background:
+      radial-gradient(circle at 30% 30%,
+        rgba(255,255,255,0.14) 0%,
+        rgba(200,200,210,0.06) 40%,
+        rgba(120,120,130,0.02) 70%,
+        transparent 100%);
+    border:1px solid rgba(255,255,255,0.10);
     box-shadow:
-      0 0 60px rgba(255,60,60,0.35),
-      inset -10px -10px 30px rgba(0,0,0,0.5),
-      inset 10px 10px 30px rgba(255,180,180,0.4);
-    filter:blur(0.3px);
+      0 0 60px rgba(180,180,190,0.08),
+      inset -12px -12px 40px rgba(0,0,0,0.35),
+      inset 8px 8px 24px rgba(255,255,255,0.08);
+    backdrop-filter:blur(3px);
+    -webkit-backdrop-filter:blur(3px);
     animation:float 14s ease-in-out infinite;
   }
+  /* Reflet lumineux sur la surface */
   .orb::after {
     content:'';
     position:absolute;
-    top:12%; left:18%;
-    width:35%; height:25%;
+    top:14%; left:20%;
+    width:30%; height:20%;
     border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 70%);
+    background:radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 70%);
+    filter:blur(6px);
+    opacity:0.6;
+  }
+  /* Second petit reflet en bas à droite */
+  .orb::before {
+    content:'';
+    position:absolute;
+    bottom:18%; right:22%;
+    width:14%; height:10%;
+    border-radius:50%;
+    background:radial-gradient(ellipse, rgba(255,255,255,0.18) 0%, transparent 70%);
     filter:blur(4px);
-    opacity:0.7;
+    opacity:0.5;
   }
 
   .orb-1 {
@@ -236,7 +250,6 @@
     font-weight:500;
   }
 
-  /* Bouton liquid glass */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -288,7 +301,6 @@
   }
   .discord-btn span { position:relative; z-index:1; }
 
-  /* Footer */
   .footer {
     margin-top:56px;
     display:flex;
@@ -321,7 +333,6 @@
     font-weight:600;
   }
 
-  /* === MODALES === */
   .modal-overlay {
     position:fixed; inset:0;
     background:rgba(0,0,0,0.72);
@@ -388,7 +399,6 @@
   .modal-body ul { padding-left:18px; margin-bottom:12px; }
   .modal-body li { margin-bottom:4px; }
 
-  /* === MOBILE === */
   @media (max-width:640px) {
     body { padding:36px 20px; }
 
@@ -430,7 +440,6 @@
 </head>
 <body>
 
-<!-- Scène 3D en fond -->
 <div class="scene" aria-hidden="true">
   <div class="grid-floor"></div>
   <div class="ring"></div>
