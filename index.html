@@ -136,6 +136,7 @@
     }
   }
 
+  /* Logo — sans animation de rotation */
   .logo {
     width:104px;
     height:104px;
@@ -150,12 +151,6 @@
       0 0 60px rgba(255,60,60,0.35),
       0 0 0 1px rgba(255,255,255,0.10) inset,
       0 30px 50px -20px rgba(0,0,0,0.8);
-    animation:logoSpinStep 3s ease-in-out infinite;
-  }
-  @keyframes logoSpinStep {
-    0%, 55%, 100% { transform:rotate(0deg); }
-    15%  { transform:rotate(360deg); }
-    40%  { transform:rotate(360deg); }
   }
   .logo svg {
     width:52px; height:52px;
