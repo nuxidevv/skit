@@ -7,7 +7,7 @@
 <meta name="description" content="Seek It est temporairement indisponible.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&family=JetBrains+Mono:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
 <style>
   * { margin:0; padding:0; box-sizing:border-box; }
   html, body { height:100%; }
@@ -116,8 +116,9 @@
   .wrap > .logo   { animation-delay:0.05s; }
   .wrap > h1      { animation-delay:0.15s; }
   .wrap > .desc   { animation-delay:0.25s; }
-  .wrap > .discord-btn { animation-delay:0.35s; }
-  .wrap > .footer { animation-delay:0.45s; }
+  .wrap > .countdown-block { animation-delay:0.35s; }
+  .wrap > .discord-btn { animation-delay:0.45s; }
+  .wrap > .footer { animation-delay:0.55s; }
 
   @keyframes softEnter {
     from { opacity:0; transform:translateY(14px); }
@@ -164,7 +165,7 @@
     color:#8f8f99;
     line-height:1.65;
     max-width:400px;
-    margin-bottom:44px;
+    margin-bottom:40px;
     font-weight:400;
   }
   .desc em {
@@ -173,7 +174,74 @@
     font-weight:500;
   }
 
-  /* === BOUTON LIQUID GLASS VRAIMENT TRANSPARENT === */
+  /* === COMPTEUR === */
+  .countdown-block {
+    width:100%;
+    max-width:440px;
+    margin-bottom:24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:14px;
+  }
+
+  .countdown-label {
+    font-size:0.65rem;
+    font-weight:600;
+    letter-spacing:0.18em;
+    text-transform:uppercase;
+    color:#8f8f99;
+  }
+
+  .countdown {
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+    gap:10px;
+  }
+
+  .cd-unit {
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    min-width:70px;
+    padding:14px 10px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.03);
+    border:1px solid rgba(255,255,255,0.08);
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
+  }
+
+  .cd-num {
+    font-family:'JetBrains Mono', 'Inter', monospace;
+    font-size:1.8rem;
+    font-weight:700;
+    color:#ffffff;
+    letter-spacing:-0.03em;
+    line-height:1;
+    margin-bottom:6px;
+    text-shadow:0 0 20px rgba(255,60,60,0.25);
+  }
+
+  .cd-label {
+    font-size:0.6rem;
+    font-weight:500;
+    letter-spacing:0.12em;
+    text-transform:uppercase;
+    color:#6e6e78;
+  }
+
+  .cd-sep {
+    font-family:'JetBrains Mono', monospace;
+    font-size:1.6rem;
+    font-weight:400;
+    color:rgba(255,255,255,0.15);
+    padding-top:14px;
+    line-height:1;
+  }
+
+  /* === BOUTON LIQUID GLASS TRANSPARENT === */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -328,7 +396,18 @@
     .logo svg { width:40px; height:40px; }
 
     h1 { font-size:1.9rem; margin-bottom:16px; }
-    .desc { font-size:0.85rem; margin-bottom:32px; max-width:300px; }
+    .desc { font-size:0.85rem; margin-bottom:30px; max-width:300px; }
+
+    .countdown-block { margin-bottom:20px; gap:10px; }
+    .countdown { gap:6px; }
+    .cd-unit {
+      min-width:58px;
+      padding:11px 7px;
+      border-radius:12px;
+    }
+    .cd-num { font-size:1.35rem; margin-bottom:4px; }
+    .cd-label { font-size:0.52rem; }
+    .cd-sep { font-size:1.2rem; padding-top:11px; }
 
     .discord-btn {
       padding:14px 24px;
@@ -372,6 +451,32 @@
   <p class="desc">
     Une panne côté serveur nous a forcés à couper l'accès. <em>Rien de grave</em>, on répare et on revient très vite.
   </p>
+
+  <!-- COMPTEUR -->
+  <div class="countdown-block">
+    <div class="countdown-label">Temps estimé</div>
+    <div class="countdown" id="countdown">
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-days">--</div>
+        <div class="cd-label">Jours</div>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-hours">--</div>
+        <div class="cd-label">Heures</div>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-minutes">--</div>
+        <div class="cd-label">Min</div>
+      </div>
+      <div class="cd-sep">:</div>
+      <div class="cd-unit">
+        <div class="cd-num" id="cd-seconds">--</div>
+        <div class="cd-label">Sec</div>
+      </div>
+    </div>
+  </div>
 
   <a class="discord-btn" href="https://discord.gg/GT2C3f6cgQ" target="_blank" rel="noopener noreferrer">
     <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -446,6 +551,49 @@
 </div>
 
 <script>
+  /* === COMPTEUR === */
+  (function () {
+    // Cible : 29 septembre 2026 à 08h00 (heure locale)
+    var target = new Date(2026, 8, 29, 8, 0, 0).getTime();
+
+    var elDays = document.getElementById("cd-days");
+    var elHours = document.getElementById("cd-hours");
+    var elMinutes = document.getElementById("cd-minutes");
+    var elSeconds = document.getElementById("cd-seconds");
+
+    function pad(n) {
+      return String(n).padStart(2, "0");
+    }
+
+    function update() {
+      var now = Date.now();
+      var diff = target - now;
+
+      if (diff <= 0) {
+        elDays.textContent = "00";
+        elHours.textContent = "00";
+        elMinutes.textContent = "00";
+        elSeconds.textContent = "00";
+        return;
+      }
+
+      var totalSeconds = Math.floor(diff / 1000);
+      var days = Math.floor(totalSeconds / 86400);
+      var hours = Math.floor((totalSeconds % 86400) / 3600);
+      var minutes = Math.floor((totalSeconds % 3600) / 60);
+      var seconds = totalSeconds % 60;
+
+      elDays.textContent = pad(days);
+      elHours.textContent = pad(hours);
+      elMinutes.textContent = pad(minutes);
+      elSeconds.textContent = pad(seconds);
+    }
+
+    update();
+    setInterval(update, 1000);
+  })();
+
+  /* === MODALES === */
   (function () {
     function openModal(id) {
       var el = document.getElementById(id);
