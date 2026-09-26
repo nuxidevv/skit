@@ -74,68 +74,12 @@
     100% { background-position:0 60px; }
   }
 
-  /* Sphères flottantes */
-  .orb {
+  /* Anneaux 3D3 derrière le logo */
+   .ring {
     position:absolute;
-    border-radius:50%;
-    background:radial-gradient(circle at 30% 30%,
-      rgba(255,120,120,0.9) 0%,
-      rgba(200,40,40,0.5) 40%,
-      rgba(120,10,10,0.1) 70%,
-      transparent 100%);
-    box-shadow:
-      0 0 60px rgba(255,60,60,0.35),
-      inset -10px -10px 30px rgba(0,0,0,0.5),
-      inset 10px 10px 30px rgba(255,180,180,0.4);
-    filter:blur(0.3px);
-    animation:float 14s ease-in-out infinite;
-  }
-  .orb::after {
-    content:'';
-    position:absolute;
-    top:12%; left:18%;
-    width:35%; height:25%;
-    border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 70%);
-    filter:blur(4px);
-    opacity:0.7;
-  }
-
-  .orb-1 {
-    width:140px; height:140px;
-    top:12%; left:8%;
-    animation-delay:0s;
-  }
-  .orb-2 {
-    width:80px; height:80px;
-    top:60%; right:10%;
-    animation-delay:-4s;
-    opacity:0.85;
-  }
-  .orb-3 {
-    width:220px; height:220px;
-    bottom:-40px; left:-40px;
-    animation-delay:-8s;
-    opacity:0.55;
-  }
-  .orb-4 {
-    width:60px; height:60px;
-    top:22%; right:18%;
-    animation-delay:-6s;
-    opacity:0.9;
-  }
-
-  @keyframes float {
-    0%,100% { transform:translate3d(0,0,0) rotate(0deg); }
-    50% { transform:translate3d(20px,-30px,40px) rotate(8deg); }
-  }
-
-  /* Anneaux 3D derrière le logo */
-  .ring {
-    position:absolute;
-    top:50%; left:50%;
-    width:420px; height:420px;
-    margin:-210px 0 0 -210px;
+45    top:50%; left:50%;
+%,    width:420px; height: #420px;
+    margin:-ff210px 0 0 -210px;
     border-radius:50%;
     border:1px solid rgba(255,80,80,0.18);
     transform-style:preserve-3d;
@@ -169,11 +113,29 @@
     flex-direction:column;
     align-items:center;
     text-align:center;
-    animation:appear 1s cubic-bezier(0.2, 0.9, 0.3, 1);
   }
-  @keyframes appear {
-    from { opacity:0; transform:translateY(24px); filter:blur(6px); }
-    to   { opacity:1; transform:translateY(0);    filter:blur(0); }
+
+  /* Animation d'entrée plus naturelle :
+     le contenu apparaît en fondu + léger mouvement vertical,
+     sans blur ni effet "IA" */
+  .wrap > * {
+    animation:softEnter 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
+  }
+  .wrap > .logo   { animation-delay:0.05s; }
+  .wrap > h1      { animation-delay:0.15s; }
+  .wrap > .desc   { animation-delay:0.25s; }
+  .wrap > .discord-btn { animation-delay:0.35s; }
+  .wrap > .footer { animation-delay:0.45s; }
+
+  @keyframes softEnter {
+    from {
+      opacity:0;
+      transform:translateY(14px);
+    }
+    to {
+      opacity:1;
+      transform:translateY(0);
+    }
   }
 
   .logo {
@@ -214,7 +176,7 @@
 
   h1 .accent {
     display:inline-block;
-    background:linear-gradient(180deg, #ffffff 0%, #ffb3b3 45%, #ff4d4d 100%);
+    background:linear-gradient(180deg, #ffffff 0%, #ffb3b4d4d 100%);
     -webkit-background-clip:text;
     background-clip:text;
     -webkit-text-fill-color:transparent;
@@ -392,9 +354,6 @@
   @media (max-width:640px) {
     body { padding:36px 20px; }
 
-    .orb-1 { width:100px; height:100px; }
-    .orb-3 { width:160px; height:160px; }
-    .orb-4 { width:44px; height:44px; }
     .ring { width:300px; height:300px; margin:-150px 0 0 -150px; }
     .ring:nth-of-type(2) { width:400px; height:400px; margin:-200px 0 0 -200px; }
     .ring:nth-of-type(3) { width:500px; height:500px; margin:-250px 0 0 -250px; }
@@ -436,10 +395,6 @@
   <div class="ring"></div>
   <div class="ring"></div>
   <div class="ring"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
 </div>
 
 <div class="wrap">
