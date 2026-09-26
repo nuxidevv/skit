@@ -73,75 +73,115 @@
     100% { background-position:0 60px; }
   }
 
-  /* === GLOBES TRANSPARENTS GRIS === */
-  .orb {
+  /* === GLOBES FILAIRES GRIS === */
+  .globe {
     position:absolute;
     border-radius:50%;
-    background:
-      radial-gradient(circle at 30% 30%,
-        rgba(255,255,255,0.14) 0%,
-        rgba(200,200,210,0.06) 40%,
-        rgba(120,120,130,0.02) 70%,
-        transparent 100%);
-    border:1px solid rgba(255,255,255,0.10);
+    border:1px solid rgba(200,200,210,0.25);
+    background:radial-gradient(circle at 35% 30%,
+      rgba(255,255,255,0.05) 0%,
+      transparent 60%);
     box-shadow:
-      0 0 60px rgba(180,180,190,0.08),
-      inset -12px -12px 40px rgba(0,0,0,0.35),
-      inset 8px 8px 24px rgba(255,255,255,0.08);
-    backdrop-filter:blur(3px);
-    -webkit-backdrop-filter:blur(3px);
-    animation:float 14s ease-in-out infinite;
-  }
-  /* Reflet lumineux sur la surface */
-  .orb::after {
-    content:'';
-    position:absolute;
-    top:14%; left:20%;
-    width:30%; height:20%;
-    border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,255,255,0.35) 0%, transparent 70%);
-    filter:blur(6px);
-    opacity:0.6;
-  }
-  /* Second petit reflet en bas à droite */
-  .orb::before {
-    content:'';
-    position:absolute;
-    bottom:18%; right:22%;
-    width:14%; height:10%;
-    border-radius:50%;
-    background:radial-gradient(ellipse, rgba(255,255,255,0.18) 0%, transparent 70%);
-    filter:blur(4px);
-    opacity:0.5;
+      0 0 40px rgba(180,180,190,0.10),
+      inset 0 0 40px rgba(180,180,190,0.06);
+    transform-style:preserve-3d;
+    animation:globeSpin 20s linear infinite;
+    overflow:hidden;
   }
 
-  .orb-1 {
-    width:140px; height:140px;
-    top:12%; left:8%;
-    animation-delay:0s;
+  /* Méridien vertical (ligne qui traverse haut→bas) */
+  .globe::before {
+    content:'';
+    position:absolute;
+    top:0; bottom:0;
+    left:50%;
+    width:1px;
+    margin-left:-0.5px;
+    background:linear-gradient(180deg,
+      transparent 0%,
+      rgba(200,200,210,0.28) 15%,
+      rgba(200,200,210,0.28) 85%,
+      transparent 100%);
   }
-  .orb-2 {
-    width:80px; height:80px;
-    top:60%; right:10%;
-    animation-delay:-4s;
-    opacity:0.85;
+
+  /* Équateur horizontal */
+  .globe::after {
+    content:'';
+    position:absolute;
+    left:0; right:0;
+    top:50%;
+    height:1px;
+    margin-top:-0.5px;
+    background:linear-gradient(90deg,
+      transparent 0%,
+      rgba(200,200,210,0.28) 15%,
+      rgba(200,200,210,0.28) 85%,
+      transparent 100%);
   }
-  .orb-3 {
-    width:220px; height:220px;
-    bottom:-40px; left:-40px;
-    animation-delay:-8s;
+
+  /* Méridiens et parallèles supplémentaires en SVG */
+  .globe svg {
+    position:absolute;
+    inset:0;
+    width:100%;
+    height:100%;
     opacity:0.55;
   }
-  .orb-4 {
+  .globe svg ellipse,
+  .globe svg path {
+    fill:none;
+    stroke:rgba(200,200,210,0.55);
+    stroke-width:0.6;
+    vector-effect:non-scaling-stroke;
+  }
+
+  @keyframes globeSpin {
+    /* La rotation horizontale est simulée par le déplacement des lignes SVG */
+    0%   { transform:rotate(0deg); }
+    100% { transform:rotate(360deg); }
+  }
+  /* On ne veut pas faire tourner tout le globe — juste les méridiens.
+     On désactive donc la rotation du wrapper et on anime le SVG. */
+  .globe { animation:none; }
+  .globe svg { animation:meridianSpin 8s linear infinite; }
+  @keyframes meridianSpin {
+    0%   { transform:scaleX(1); }
+    25%  { transform:scaleX(0.3); }
+    50%  { transform:scaleX(-1); }
+    75%  { transform:scaleX(-0.3); }
+    100% { transform:scaleX(1); }
+  }
+
+  /* Tailles */
+  .globe-1 {
+    width:140px; height:140px;
+    top:12%; left:8%;
+  }
+  .globe-2 {
+    width:80px; height:80px;
+    top:60%; right:10%;
+    opacity:0.85;
+  }
+  .globe-3 {
+    width:220px; height:220px;
+    bottom:-40px; left:-40px;
+    opacity:0.55;
+  }
+  .globe-4 {
     width:60px; height:60px;
     top:22%; right:18%;
-    animation-delay:-6s;
     opacity:0.9;
   }
 
+  /* Flottement lent */
+  .globe-1 { animation:float 14s ease-in-out infinite; }
+  .globe-2 { animation:float 14s ease-in-out infinite; animation-delay:-4s; }
+  .globe-3 { animation:float 14s ease-in-out infinite; animation-delay:-8s; }
+  .globe-4 { animation:float 14s ease-in-out infinite; animation-delay:-6s; }
+
   @keyframes float {
-    0%,100% { transform:translate3d(0,0,0) rotate(0deg); }
-    50% { transform:translate3d(20px,-30px,40px) rotate(8deg); }
+    0%,100% { transform:translate3d(0,0,0); }
+    50%     { transform:translate3d(20px,-30px,0); }
   }
 
   /* Anneaux 3D derrière le logo */
@@ -402,9 +442,9 @@
   @media (max-width:640px) {
     body { padding:36px 20px; }
 
-    .orb-1 { width:100px; height:100px; }
-    .orb-3 { width:160px; height:160px; }
-    .orb-4 { width:44px; height:44px; }
+    .globe-1 { width:100px; height:100px; }
+    .globe-3 { width:160px; height:160px; }
+    .globe-4 { width:44px; height:44px; }
     .ring { width:300px; height:300px; margin:-150px 0 0 -150px; }
     .ring:nth-of-type(2) { width:400px; height:400px; margin:-200px 0 0 -200px; }
     .ring:nth-of-type(3) { width:500px; height:500px; margin:-250px 0 0 -250px; }
@@ -445,10 +485,62 @@
   <div class="ring"></div>
   <div class="ring"></div>
   <div class="ring"></div>
-  <div class="orb orb-1"></div>
-  <div class="orb orb-2"></div>
-  <div class="orb orb-3"></div>
-  <div class="orb orb-4"></div>
+
+  <!-- Globe filaire 1 -->
+  <div class="globe globe-1">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <ellipse cx="50" cy="50" rx="15" ry="50"/>
+      <ellipse cx="50" cy="50" rx="30" ry="50"/>
+      <ellipse cx="50" cy="50" rx="45" ry="50"/>
+      <line x1="5" y1="50" x2="95" y2="50"/>
+      <path d="M 5 50 A 45 15 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 15 0 0 0 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 0 95 50"/>
+    </svg>
+  </div>
+
+  <!-- Globe filaire 2 -->
+  <div class="globe globe-2">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <ellipse cx="50" cy="50" rx="15" ry="50"/>
+      <ellipse cx="50" cy="50" rx="30" ry="50"/>
+      <ellipse cx="50" cy="50" rx="45" ry="50"/>
+      <line x1="5" y1="50" x2="95" y2="50"/>
+      <path d="M 5 50 A 45 15 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 15 0 0 0 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 0 95 50"/>
+    </svg>
+  </div>
+
+  <!-- Globe filaire 3 -->
+  <div class="globe globe-3">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <ellipse cx="50" cy="50" rx="15" ry="50"/>
+      <ellipse cx="50" cy="50" rx="30" ry="50"/>
+      <ellipse cx="50" cy="50" rx="45" ry="50"/>
+      <line x1="5" y1="50" x2="95" y2="50"/>
+      <path d="M 5 50 A 45 15 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 15 0 0 0 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 0 95 50"/>
+    </svg>
+  </div>
+
+  <!-- Globe filaire 4 -->
+  <div class="globe globe-4">
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+      <ellipse cx="50" cy="50" rx="15" ry="50"/>
+      <ellipse cx="50" cy="50" rx="30" ry="50"/>
+      <ellipse cx="50" cy="50" rx="45" ry="50"/>
+      <line x1="5" y1="50" x2="95" y2="50"/>
+      <path d="M 5 50 A 45 15 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 15 0 0 0 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 1 95 50"/>
+      <path d="M 5 50 A 45 30 0 0 0 95 50"/>
+    </svg>
+  </div>
 </div>
 
 <div class="wrap">
