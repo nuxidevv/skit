@@ -25,7 +25,6 @@
     -webkit-font-smoothing:antialiased;
   }
 
-  /* halo rouge diffus */
   body::before {
     content:'';
     position:fixed;
@@ -41,7 +40,6 @@
     filter:blur(40px);
   }
 
-  /* === SCÈNE 3D EN BACKGROUND === */
   .scene {
     position:fixed;
     inset:0;
@@ -51,7 +49,6 @@
     perspective:1200px;
   }
 
-  /* Grille de sol en perspective */
   .grid-floor {
     position:absolute;
     bottom:-10%;
@@ -74,7 +71,6 @@
     100% { background-position:0 60px; }
   }
 
-  /* Anneaux 3D derrière le logo */
   .ring {
     position:absolute;
     top:50%; left:50%;
@@ -103,7 +99,6 @@
     100% { transform:rotateX(72deg) rotateZ(360deg); }
   }
 
-  /* === CONTENU === */
   .wrap {
     position:relative;
     z-index:3;
@@ -115,7 +110,6 @@
     text-align:center;
   }
 
-  /* Animation d'entrée en cascade douce */
   .wrap > * {
     animation:softEnter 0.7s cubic-bezier(0.25, 0.46, 0.45, 0.94) backwards;
   }
@@ -126,17 +120,10 @@
   .wrap > .footer { animation-delay:0.45s; }
 
   @keyframes softEnter {
-    from {
-      opacity:0;
-      transform:translateY(14px);
-    }
-    to {
-      opacity:1;
-      transform:translateY(0);
-    }
+    from { opacity:0; transform:translateY(14px); }
+    to   { opacity:1; transform:translateY(0); }
   }
 
-  /* Logo — sans animation de rotation */
   .logo {
     width:104px;
     height:104px;
@@ -186,7 +173,7 @@
     font-weight:500;
   }
 
-  /* Bouton liquid glass */
+  /* === BOUTON LIQUID GLASS VRAIMENT TRANSPARENT === */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -194,51 +181,40 @@
     gap:12px;
     padding:16px 30px;
     border-radius:14px;
-    background:rgba(255,255,255,0.06);
+    background:transparent;
     color:#ffffff;
     font-family:inherit;
     font-size:0.92rem;
     font-weight:600;
     letter-spacing:-0.01em;
     text-decoration:none;
-    border:1px solid rgba(255,255,255,0.30);
+    border:1px solid rgba(255,255,255,0.18);
     cursor:pointer;
     position:relative;
     overflow:hidden;
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
-    box-shadow:
-      0 10px 30px rgba(0,0,0,0.4),
-      0 1px 0 0 rgba(255,255,255,0.35) inset,
-      0 -1px 0 0 rgba(0,0,0,0.2) inset;
+    backdrop-filter:blur(10px);
+    -webkit-backdrop-filter:blur(10px);
     transition:all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1);
   }
-  .discord-btn::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:50%;
-    background:linear-gradient(180deg, rgba(255,255,255,0.18) 0%, transparent 100%);
-    border-radius:14px 14px 0 0;
-    pointer-events:none;
-  }
   .discord-btn:hover {
-    transform:translateY(-2px);
-    background:rgba(255,255,255,0.10);
-    border-color:rgba(255,255,255,0.5);
-    box-shadow:
-      0 18px 40px rgba(255,60,60,0.25),
-      0 1px 0 0 rgba(255,255,255,0.45) inset;
+    background:rgba(255,255,255,0.04);
+    border-color:rgba(255,255,255,0.35);
+    transform:translateY(-1px);
   }
-  .discord-btn:active { transform:translateY(0) scale(0.99); }
+  .discord-btn:active {
+    transform:translateY(0) scale(0.99);
+  }
   .discord-btn svg {
     width:20px; height:20px;
     color:#ffffff;
-    position:relative; z-index:1;
+    position:relative;
+    z-index:1;
   }
-  .discord-btn span { position:relative; z-index:1; }
+  .discord-btn span {
+    position:relative;
+    z-index:1;
+  }
 
-  /* Footer */
   .footer {
     margin-top:56px;
     display:flex;
@@ -271,7 +247,6 @@
     font-weight:600;
   }
 
-  /* === MODALES === */
   .modal-overlay {
     position:fixed; inset:0;
     background:rgba(0,0,0,0.72);
@@ -338,7 +313,6 @@
   .modal-body ul { padding-left:18px; margin-bottom:12px; }
   .modal-body li { margin-bottom:4px; }
 
-  /* === MOBILE === */
   @media (max-width:640px) {
     body { padding:36px 20px; }
 
@@ -377,7 +351,6 @@
 </head>
 <body>
 
-<!-- Scène 3D en fond -->
 <div class="scene" aria-hidden="true">
   <div class="grid-floor"></div>
   <div class="ring"></div>
