@@ -37,16 +37,16 @@
       transparent 65%);
     pointer-events:none;
     z-index:0;
-    filter:blur(40px);
+    filter:bl);ur(40px);
   }
 
-  .scene {
-    position:fixed;
-    inset:0;
+  }
+ .scene {
+     position:fixed;
+    inset: .0;
     z-index:0;
-    pointer-events:none;
-    overflow:hidden;
-    perspective:1200px;
+gl    pointer-events:none;
+    overflow:hobeidden;
   }
 
   .grid-floor {
@@ -71,9 +71,24 @@
     100% { background-position:0 60px; }
   }
 
-  /* === GLOBES FILAIRES 3D === */
+  /* === GLOBES FILAIRES 3D ===
+     Structure :
+     .globe       -> position + perspective + float
+       .globe-3d  -> rotation Y continue + perspective 3D
+         .sphere   -> sphère extérieure
+         .meridian -> méridiens tournés autour de Y
+         .parallel -> parallèles tournés autour de X
+  */
   .globe {
     position:absolute;
+    perspective:800px;
+    animation:floatA 14s ease-in-out infinite;
+  }
+
+  .globe-3d {
+    position:relative;
+    width:100%;
+    height:100%;
     transform-style:preserve-3d;
     animation:globeSpin 14s linear infinite;
   }
@@ -82,11 +97,10 @@
     position:absolute;
     inset:0;
     border-radius:50%;
-    border:1px solid rgba(200,200,210,0.28);
+    border:1px solid rgba(200,200,210,0.30);
     transform-style:preserve-3d;
   }
 
-  /* Méridiens : cercles tournés autour de l'axe Y */
   .globe .meridian {
     position:absolute;
     inset:0;
@@ -94,14 +108,11 @@
     border:1px solid rgba(200,200,210,0.22);
     transform-style:preserve-3d;
   }
-  .globe .meridian:nth-child(1) { transform:rotateY(0deg); }
   .globe .meridian:nth-child(2) { transform:rotateY(30deg); }
   .globe .meridian:nth-child(3) { transform:rotateY(60deg); }
   .globe .meridian:nth-child(4) { transform:rotateY(90deg); }
-  .globe .meridian:nth-child(5) { transform:rotateY(120deg); }
-  .globe .meridian:nth-child(6) { transform:rotateY(150deg); }
+  .globe .meridian:nth-child(5) { transform:rotateY(120deg .meridian:nth-child(6) { transform:rotateY(150deg); }
 
-  /* Parallèles : cercles horizontaux à différentes latitudes */
   .globe .parallel {
     position:absolute;
     left:50%;
@@ -110,49 +121,32 @@
     transform:translateX(-50%) rotateX(90deg);
     transform-style:preserve-3d;
   }
-  /* Chaque parallèle est un cercle plus petit, positionné à une latitude donnée */
-  .globe .parallel-1 { /* équateur */
-    top:50%;
-    width:100%;
-    height:100%;
-    margin-top:-50%;
-    transform:translateX(-50%) rotateX(90deg);
+  .globe .parallel-1 {
+    top:50%; width:100%; height:100%; margin-top:-50%;
   }
   .globe .parallel-2 {
-    top:22%;
-    width:78%;
-    height:78%;
-    margin-top:-39%;
-    transform:translateX(-50%) rotateX(90deg);
+    top:22%; width:78%; height:78%; margin-top:-39%;
   }
   .globe .parallel-3 {
-    top:78%;
-    width:78%;
-    height:78%;
-    margin-top:-39%;
-    transform:translateX(-50%) rotateX(90deg);
+    top:78%; width:78%; height:78%; margin-top:-39%;
   }
   .globe .parallel-4 {
-    top:8%;
-    width:46%;
-    height:46%;
-    margin-top:-23%;
-    transform:translateX(-50%) rotateX(90deg);
+    top:8%; width:46%; height:46%; margin-top:-23%;
   }
   .globe .parallel-5 {
-    top:92%;
-    width:46%;
-    height:46%;
-    margin-top:-23%;
-    transform:translateX(-50%) rotateX(90deg);
+    top:92%; width:46%; height:46%; margin-top:-23%;
   }
 
   @keyframes globeSpin {
-    0%   { transform:rotateX(-12deg) rotateY(0deg); }
-    100% { transform:rotateX(-12deg) rotateY(360deg); }
+    0%   { transform:rotateX(-15deg) rotateY(0deg); }
+    100% { transform:rotateX(-15deg) rotateY(360deg); }
   }
 
-  /* Tailles */
+  @keyframes floatA {
+    0%,100% { translate:0 0; }
+    50%     { translate:20px -30px; }
+  }
+
   .globe-1 {
     width:140px; height:140px;
     top:12%; left:8%;
@@ -161,30 +155,24 @@
     width:80px; height:80px;
     top:60%; right:10%;
     opacity:0.85;
+    animation-delay:-4s;
   }
+  .globe-2 .globe-3d { animation-duration:12s; }
   .globe-3 {
     width:220px; height:220px;
     bottom:-40px; left:-40px;
     opacity:0.55;
+    animation-delay:-8s;
   }
+  .globe-3 .globe-3d { animation-duration:20s; }
   .globe-4 {
     width:60px; height:60px;
     top:22%; right:18%;
     opacity:0.9;
+    animation-delay:-6s;
   }
+  .globe-4 .globe-3d { animation-duration:10s; }
 
-  /* Flottement lent + rotation */
-  .globe-1 { animation:floatA 14s ease-in-out infinite, globeSpin 16s linear infinite; }
-  .globe-2 { animation:floatA 14s ease-in-out infinite -4s, globeSpin 12s linear infinite; }
-  .globe-3 { animation:floatA 14s ease-in-out infinite -8s, globeSpin 20s linear infinite; }
-  .globe-4 { animation:floatA 14s ease-in-out infinite -6s, globeSpin 10s linear infinite; }
-
-  @keyframes floatA {
-    0%,100% { translate:0 0; }
-    50%     { translate:20px -30px; }
-  }
-
-  /* Anneaux 3D derrière le logo */
   .ring {
     position:absolute;
     top:50%; left:50%;
@@ -233,7 +221,7 @@
     width:104px;
     height:104px;
     border-radius:24px;
-    background:linear-gradient(160deg, #ffffff 0%, #cfcfd4 60%, #9a9aa2 100%);
+    background:linear-gradient(160deg, #ffffff 0%, #cfcfd4 60%, #9a9aa2 100% display);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -266,7 +254,7 @@
   }
 
   h1 .accent {
-    display:inline-block;
+   :inline-block;
     background:linear-gradient(180deg, #ffffff 0%, #ffb3b3 45%, #ff4d4d 100%);
     -webkit-background-clip:text;
     background-clip:text;
@@ -485,68 +473,76 @@
   <div class="ring"></div>
   <div class="ring"></div>
 
-  <!-- Globe filaire 1 -->
+  <!-- Globe 1 -->
   <div class="globe globe-1">
-    <div class="sphere"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="parallel parallel-1"></div>
-    <div class="parallel parallel-2"></div>
-    <div class="parallel parallel-3"></div>
-    <div class="parallel parallel-4"></div>
-    <div class="parallel parallel-5"></div>
+    <div class="globe-3d">
+      <div class="sphere"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="parallel parallel-1"></div>
+      <div class="parallel parallel-2"></div>
+      <div class="parallel parallel-3"></div>
+      <div class="parallel parallel-4"></div>
+      <div class="parallel parallel-5"></div>
+    </div>
   </div>
 
-  <!-- Globe filaire 2 -->
+  <!-- Globe 2 -->
   <div class="globe globe-2">
-    <div class="sphere"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="parallel parallel-1"></div>
-    <div class="parallel parallel-2"></div>
-    <div class="parallel parallel-3"></div>
-    <div class="parallel parallel-4"></div>
-    <div class="parallel parallel-5"></div>
+    <div class="globe-3d">
+      <div class="sphere"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="parallel parallel-1"></div>
+      <div class="parallel parallel-2"></div>
+      <div class="parallel parallel-3"></div>
+      <div class="parallel parallel-4"></div>
+      <div class="parallel parallel-5"></div>
+    </div>
   </div>
 
-  <!-- Globe filaire 3 -->
+  <!-- Globe 3 -->
   <div class="globe globe-3">
-    <div class="sphere"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="parallel parallel-1"></div>
-    <div class="parallel parallel-2"></div>
-    <div class="parallel parallel-3"></div>
-    <div class="parallel parallel-4"></div>
-    <div class="parallel parallel-5"></div>
+    <div class="globe-3d">
+      <div class="sphere"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="parallel parallel-1"></div>
+      <div class="parallel parallel-2"></div>
+      <div class="parallel parallel-3"></div>
+      <div class="parallel parallel-4"></div>
+      <div class="parallel parallel-5"></div>
+    </div>
   </div>
 
-  <!-- Globe filaire 4 -->
+  <!-- Globe 4 -->
   <div class="globe globe-4">
-    <div class="sphere"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="meridian"></div>
-    <div class="parallel parallel-1"></div>
-    <div class="parallel parallel-2"></div>
-    <div class="parallel parallel-3"></div>
-    <div class="parallel parallel-4"></div>
-    <div class="parallel parallel-5"></div>
+    <div class="globe-3d">
+      <div class="sphere"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="meridian"></div>
+      <div class="parallel parallel-1"></div>
+      <div class="parallel parallel-2"></div>
+      <div class="parallel parallel-3"></div>
+      <div class="parallel parallel-4"></div>
+      <div class="parallel parallel-5"></div>
+    </div>
   </div>
 </div>
 
