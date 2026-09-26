@@ -25,6 +25,7 @@
     -webkit-font-smoothing:antialiased;
   }
 
+  /* halo rouge diffus */
   body::before {
     content:'';
     position:fixed;
@@ -37,18 +38,20 @@
       transparent 65%);
     pointer-events:none;
     z-index:0;
-    filter:bl);ur(40px);
+    filter:blur(40px);
   }
 
-  }
- .scene {
-     position:fixed;
-    inset: .0;
+  /* === SCÈNE 3D EN BACKGROUND === */
+  .scene {
+    position:fixed;
+    inset:0;
     z-index:0;
-gl    pointer-events:none;
-    overflow:hobeidden;
+    pointer-events:none;
+    overflow:hidden;
+    perspective:1200px;
   }
 
+  /* Grille de sol en perspective */
   .grid-floor {
     position:absolute;
     bottom:-10%;
@@ -71,108 +74,63 @@ gl    pointer-events:none;
     100% { background-position:0 60px; }
   }
 
-  /* === GLOBES FILAIRES 3D ===
-     Structure :
-     .globe       -> position + perspective + float
-       .globe-3d  -> rotation Y continue + perspective 3D
-         .sphere   -> sphère extérieure
-         .meridian -> méridiens tournés autour de Y
-         .parallel -> parallèles tournés autour de X
-  */
-  .globe {
+  /* Sphères flottantes */
+  .orb {
     position:absolute;
-    perspective:800px;
-    animation:floatA 14s ease-in-out infinite;
-  }
-
-  .globe-3d {
-    position:relative;
-    width:100%;
-    height:100%;
-    transform-style:preserve-3d;
-    animation:globeSpin 14s linear infinite;
-  }
-
-  .globe .sphere {
-    position:absolute;
-    inset:0;
     border-radius:50%;
-    border:1px solid rgba(200,200,210,0.30);
-    transform-style:preserve-3d;
+    background:radial-gradient(circle at 30% 30%,
+      rgba(255,120,120,0.9) 0%,
+      rgba(200,40,40,0.5) 40%,
+      rgba(120,10,10,0.1) 70%,
+      transparent 100%);
+    box-shadow:
+      0 0 60px rgba(255,60,60,0.35),
+      inset -10px -10px 30px rgba(0,0,0,0.5),
+      inset 10px 10px 30px rgba(255,180,180,0.4);
+    filter:blur(0.3px);
+    animation:float 14s ease-in-out infinite;
   }
-
-  .globe .meridian {
+  .orb::after {
+    content:'';
     position:absolute;
-    inset:0;
+    top:12%; left:18%;
+    width:35%; height:25%;
     border-radius:50%;
-    border:1px solid rgba(200,200,210,0.22);
-    transform-style:preserve-3d;
-  }
-  .globe .meridian:nth-child(2) { transform:rotateY(30deg); }
-  .globe .meridian:nth-child(3) { transform:rotateY(60deg); }
-  .globe .meridian:nth-child(4) { transform:rotateY(90deg); }
-  .globe .meridian:nth-child(5) { transform:rotateY(120deg .meridian:nth-child(6) { transform:rotateY(150deg); }
-
-  .globe .parallel {
-    position:absolute;
-    left:50%;
-    border-radius:50%;
-    border:1px solid rgba(200,200,210,0.20);
-    transform:translateX(-50%) rotateX(90deg);
-    transform-style:preserve-3d;
-  }
-  .globe .parallel-1 {
-    top:50%; width:100%; height:100%; margin-top:-50%;
-  }
-  .globe .parallel-2 {
-    top:22%; width:78%; height:78%; margin-top:-39%;
-  }
-  .globe .parallel-3 {
-    top:78%; width:78%; height:78%; margin-top:-39%;
-  }
-  .globe .parallel-4 {
-    top:8%; width:46%; height:46%; margin-top:-23%;
-  }
-  .globe .parallel-5 {
-    top:92%; width:46%; height:46%; margin-top:-23%;
+    background:radial-gradient(ellipse, rgba(255,255,255,0.6) 0%, transparent 70%);
+    filter:blur(4px);
+    opacity:0.7;
   }
 
-  @keyframes globeSpin {
-    0%   { transform:rotateX(-15deg) rotateY(0deg); }
-    100% { transform:rotateX(-15deg) rotateY(360deg); }
-  }
-
-  @keyframes floatA {
-    0%,100% { translate:0 0; }
-    50%     { translate:20px -30px; }
-  }
-
-  .globe-1 {
+  .orb-1 {
     width:140px; height:140px;
     top:12%; left:8%;
+    animation-delay:0s;
   }
-  .globe-2 {
+  .orb-2 {
     width:80px; height:80px;
     top:60%; right:10%;
-    opacity:0.85;
     animation-delay:-4s;
+    opacity:0.85;
   }
-  .globe-2 .globe-3d { animation-duration:12s; }
-  .globe-3 {
+  .orb-3 {
     width:220px; height:220px;
     bottom:-40px; left:-40px;
-    opacity:0.55;
     animation-delay:-8s;
+    opacity:0.55;
   }
-  .globe-3 .globe-3d { animation-duration:20s; }
-  .globe-4 {
+  .orb-4 {
     width:60px; height:60px;
     top:22%; right:18%;
-    opacity:0.9;
     animation-delay:-6s;
+    opacity:0.9;
   }
-  .globe-4 .globe-3d { animation-duration:10s; }
 
+  @keyframes float {
+    0%,100% { transform:translate3d(0,0,0) rotate(0deg); }
+    50% { transform:translate3d(20px,-30px,40px) rotate(8deg); }
+  }
+
+  /* Anneaux 3D derrière le logo */
   .ring {
     position:absolute;
     top:50%; left:50%;
@@ -201,6 +159,7 @@ gl    pointer-events:none;
     100% { transform:rotateX(72deg) rotateZ(360deg); }
   }
 
+  /* === CONTENU === */
   .wrap {
     position:relative;
     z-index:3;
@@ -221,7 +180,7 @@ gl    pointer-events:none;
     width:104px;
     height:104px;
     border-radius:24px;
-    background:linear-gradient(160deg, #ffffff 0%, #cfcfd4 60%, #9a9aa2 100% display);
+    background:linear-gradient(160deg, #ffffff 0%, #cfcfd4 60%, #9a9aa2 100%);
     display:flex;
     align-items:center;
     justify-content:center;
@@ -254,7 +213,7 @@ gl    pointer-events:none;
   }
 
   h1 .accent {
-   :inline-block;
+    display:inline-block;
     background:linear-gradient(180deg, #ffffff 0%, #ffb3b3 45%, #ff4d4d 100%);
     -webkit-background-clip:text;
     background-clip:text;
@@ -277,6 +236,7 @@ gl    pointer-events:none;
     font-weight:500;
   }
 
+  /* Bouton liquid glass */
   .discord-btn {
     display:inline-flex;
     align-items:center;
@@ -328,6 +288,7 @@ gl    pointer-events:none;
   }
   .discord-btn span { position:relative; z-index:1; }
 
+  /* Footer */
   .footer {
     margin-top:56px;
     display:flex;
@@ -360,6 +321,7 @@ gl    pointer-events:none;
     font-weight:600;
   }
 
+  /* === MODALES === */
   .modal-overlay {
     position:fixed; inset:0;
     background:rgba(0,0,0,0.72);
@@ -426,12 +388,13 @@ gl    pointer-events:none;
   .modal-body ul { padding-left:18px; margin-bottom:12px; }
   .modal-body li { margin-bottom:4px; }
 
+  /* === MOBILE === */
   @media (max-width:640px) {
     body { padding:36px 20px; }
 
-    .globe-1 { width:100px; height:100px; }
-    .globe-3 { width:160px; height:160px; }
-    .globe-4 { width:44px; height:44px; }
+    .orb-1 { width:100px; height:100px; }
+    .orb-3 { width:160px; height:160px; }
+    .orb-4 { width:44px; height:44px; }
     .ring { width:300px; height:300px; margin:-150px 0 0 -150px; }
     .ring:nth-of-type(2) { width:400px; height:400px; margin:-200px 0 0 -200px; }
     .ring:nth-of-type(3) { width:500px; height:500px; margin:-250px 0 0 -250px; }
@@ -467,83 +430,16 @@ gl    pointer-events:none;
 </head>
 <body>
 
+<!-- Scène 3D en fond -->
 <div class="scene" aria-hidden="true">
   <div class="grid-floor"></div>
   <div class="ring"></div>
   <div class="ring"></div>
   <div class="ring"></div>
-
-  <!-- Globe 1 -->
-  <div class="globe globe-1">
-    <div class="globe-3d">
-      <div class="sphere"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="parallel parallel-1"></div>
-      <div class="parallel parallel-2"></div>
-      <div class="parallel parallel-3"></div>
-      <div class="parallel parallel-4"></div>
-      <div class="parallel parallel-5"></div>
-    </div>
-  </div>
-
-  <!-- Globe 2 -->
-  <div class="globe globe-2">
-    <div class="globe-3d">
-      <div class="sphere"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="parallel parallel-1"></div>
-      <div class="parallel parallel-2"></div>
-      <div class="parallel parallel-3"></div>
-      <div class="parallel parallel-4"></div>
-      <div class="parallel parallel-5"></div>
-    </div>
-  </div>
-
-  <!-- Globe 3 -->
-  <div class="globe globe-3">
-    <div class="globe-3d">
-      <div class="sphere"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="parallel parallel-1"></div>
-      <div class="parallel parallel-2"></div>
-      <div class="parallel parallel-3"></div>
-      <div class="parallel parallel-4"></div>
-      <div class="parallel parallel-5"></div>
-    </div>
-  </div>
-
-  <!-- Globe 4 -->
-  <div class="globe globe-4">
-    <div class="globe-3d">
-      <div class="sphere"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="meridian"></div>
-      <div class="parallel parallel-1"></div>
-      <div class="parallel parallel-2"></div>
-      <div class="parallel parallel-3"></div>
-      <div class="parallel parallel-4"></div>
-      <div class="parallel parallel-5"></div>
-    </div>
-  </div>
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+  <div class="orb orb-4"></div>
 </div>
 
 <div class="wrap">
