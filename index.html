@@ -20,7 +20,7 @@
     --text:#f0f0f5;
     --text-dim:#8888a0;
     --text-dimmer:#4a4a5a;
-    --green:#a855f7; /* Violet principal */
+    --green:#a855f7;
     --green-dim:rgba(168,85,247,0.15);
     --orange:#f59e0b;
     --orange-dim:rgba(245,158,11,0.12);
@@ -52,7 +52,6 @@
   }
   body.modal-open { overflow:hidden; }
 
-  /* Fond étoilé subtil */
   body::after {
     content:''; position:fixed; inset:0;
     background-image:
@@ -1289,38 +1288,6 @@
     animation:fadeUp 0.4s ease-out;
     backdrop-filter:blur(24px) saturate(180%);
     -webkit-backdrop-filter:blur(24px) saturate(180%);
-  }
-
-  /* Message de maintenance */
-  .maintenance-msg {
-    background:rgba(168,85,247,0.1);
-    border:1px solid rgba(168,85,247,0.3);
-    color:var(--purple);
-    padding:32px 24px;
-    border-radius:18px;
-    text-align:center;
-    font-size:1rem;
-    font-weight:600;
-    line-height:1.6;
-    animation:fadeUp 0.4s ease-out;
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-    box-shadow:0 8px 32px rgba(168,85,247,0.15);
-    margin-top:16px;
-  }
-  .maintenance-msg .icon {
-    display:block;
-    margin:0 auto 16px;
-    width:48px; height:48px;
-    color:var(--purple);
-    opacity:0.8;
-  }
-  .maintenance-msg .sub {
-    display:block;
-    margin-top:12px;
-    font-size:0.78rem;
-    font-weight:400;
-    color:var(--text-dim);
   }
 
   @keyframes fadeUp {
@@ -2980,27 +2947,10 @@ function bindCardActions(list) {
   list.querySelectorAll(".card").forEach(attach3DTilt);
 }
 
-// Fonction render modifiée : affiche TOUJOURS le message de maintenance
 function render(result) {
   const out = document.getElementById("out");
-  out.innerHTML = `
-    <div class="maintenance-msg">
-      <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="10"></circle>
-        <line x1="12" y1="8" x2="12" y2="12"></line>
-        <line x1="12" y1="16" x2="12.01" y2="16"></line>
-      </svg>
-      Nos serveurs sont en maintenance pour le moment…
-      <span class="sub">Veuillez réessayer ultérieurement.</span>
-    </div>
-  `;
-  playSound("error");
-  finishProgress();
-
-  // Scroll automatique vers le message
-  setTimeout(() => {
-    out.scrollIntoView({ behavior: "smooth", block: "start" });
-  }, 100);
+  out.innerHTML = "";
+  // On n'affiche RIEN dans la page — juste un toast
 }
 
 document.getElementById("go").addEventListener("click", async () => {
@@ -3009,7 +2959,6 @@ document.getElementById("go").addEventListener("click", async () => {
   const btnText = btn.querySelector(".btn-text");
 
   if (!validate(input.value)) {
-    out.innerHTML = `<div class="none">entre un prénom et un nom, un email, un téléphone, ou remplis au moins un filtre</div>`;
     toast("Entrée invalide", "error");
     playSound("error");
     return;
@@ -3019,16 +2968,18 @@ document.getElementById("go").addEventListener("click", async () => {
   btn.classList.add("loading");
   btnText.textContent = "Recherche…";
   startProgress();
-  renderSkeletons(3);
   playSound("whoosh");
 
-  // Simulation d'un court délai avant le message de maintenance
+  // Petit délai puis toast de maintenance, sans toucher au scroll
   setTimeout(() => {
-    render(null);
+    out.innerHTML = "";
+    toast("Nos serveurs sont en maintenance pour le moment…", "error", 4000);
+    playSound("error");
+    finishProgress();
     btn.disabled = false;
     btn.classList.remove("loading");
     btnText.textContent = "Rechercher";
-  }, 1500);
+  }, 1200);
 });
 
 attachRipple(document.getElementById("go"));
