@@ -45,7 +45,7 @@
     background:var(--bg); color:var(--text);
     font-family:'Inter', -apple-system, 'Segoe UI', Roboto, sans-serif;
     min-height:100vh; overflow-x:hidden;
-    transition:background 0.4s, color 0.4s;
+    transition:background 0.4s, color 0.4s, padding-top 0.4s;
     -webkit-font-smoothing:antialiased;
     padding-top:80px;
     position:relative;
@@ -1617,6 +1617,92 @@
   ::-webkit-scrollbar-thumb { background:var(--border-hover); border-radius:3px; }
   ::selection { background:var(--glow); color:var(--text); }
 
+  /* ===== BANNIÈRE MAINTENANCE ===== */
+  .maintenance-banner {
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:200;
+    padding:10px 16px;
+    background:linear-gradient(90deg, rgba(245,158,11,0.15) 0%, rgba(239,68,68,0.15) 50%, rgba(245,158,11,0.15) 100%);
+    border-bottom:1px solid rgba(245,158,11,0.35);
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    box-shadow:0 4px 24px rgba(245,158,11,0.15);
+    animation:maintSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+  }
+  .maintenance-banner.hidden {
+    transform:translateY(-100%);
+    opacity:0;
+    pointer-events:none;
+  }
+  @keyframes maintSlide {
+    from { transform:translateY(-100%); opacity:0; }
+    to { transform:translateY(0); opacity:1; }
+  }
+  .maintenance-content {
+    max-width:1400px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .maintenance-icon {
+    width:28px; height:28px;
+    border-radius:9px;
+    background:rgba(245,158,11,0.2);
+    border:1px solid rgba(245,158,11,0.4);
+    color:var(--orange);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    animation:maintPulse 2.5s ease-in-out infinite;
+  }
+  .maintenance-icon svg { width:14px; height:14px; }
+  @keyframes maintPulse {
+    0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.4); }
+    50% { box-shadow:0 0 0 8px rgba(245,158,11,0); }
+  }
+  .maintenance-text {
+    flex:1;
+    font-size:0.75rem;
+    line-height:1.5;
+    color:var(--text-dim);
+    letter-spacing:0.01em;
+    min-width:0;
+  }
+  .maintenance-text strong {
+    color:var(--orange);
+    font-weight:700;
+    margin-right:4px;
+  }
+  .maintenance-close {
+    width:26px; height:26px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:all 0.2s;
+    color:var(--text-dim);
+  }
+  .maintenance-close:hover {
+    background:rgba(255,255,255,0.12);
+    border-color:rgba(255,255,255,0.2);
+    color:var(--text);
+    transform:scale(1.08);
+  }
+  .maintenance-close svg { width:11px; height:11px; }
+
+  /* Décale le body quand la bannière est visible */
+  body.has-maintenance { padding-top:120px; }
+  body.has-maintenance nav.topbar { top:58px; }
+  body.has-maintenance .scroll-top { bottom:80px; }
+
   @media (max-width:640px) {
     body { padding-top:70px; }
     section.hero { padding:20px 20px 40px; }
@@ -1632,10 +1718,36 @@
     #resultsList.grid-view { grid-template-columns:1fr; }
     .cookie-banner { bottom:12px; padding:16px; }
     .filters-grid { grid-template-columns:1fr; }
+    .maintenance-text { font-size:0.68rem; line-height:1.4; }
+    .maintenance-icon { width:24px; height:24px; }
+    .maintenance-icon svg { width:12px; height:12px; }
+    body.has-maintenance { padding-top:110px; }
+    body.has-maintenance nav.topbar { top:52px; }
   }
 </style>
 </head>
 <body>
+
+<div class="maintenance-banner" id="maintenanceBanner">
+  <div class="maintenance-content">
+    <div class="maintenance-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+        <line x1="12" y1="9" x2="12" y2="13"></line>
+        <line x1="12" y1="17" x2="12.01" y2="17"></line>
+      </svg>
+    </div>
+    <div class="maintenance-text">
+      <strong>Maintenance en cours</strong> — Certaines fonctionnalités et recherches peuvent être instables ou renvoyer des résultats incomplets. Nous travaillons à rétablir un service optimal.
+    </div>
+    <button class="maintenance-close" id="maintenanceClose" aria-label="Fermer">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+  </div>
+</div>
 
 <canvas id="particles"></canvas>
 
@@ -1812,7 +1924,7 @@
         <div class="stat-label">Entrées indexées</div>
       </div>
       <div class="stat">
-        <div class="stat-value">50+</div>
+        <div class="stat-value">120+</div>
         <div class="stat-label">Sources actives</div>
       </div>
       <div class="stat">
@@ -2000,7 +2112,7 @@
     </button>
     <div class="modal-title">À propos de Seek It</div>
     <div class="modal-body">
-      <p><strong>Seek It</strong> est un moteur de recherche de personnes qui interroge plus de 22 milliards d'enregistrements issus de bases de données publiques et de fuites documentées.</p>
+      <p><strong>Seek It</strong> est un moteur de recherche de personnes qui interroge plus de 12 milliards d'enregistrements issus de bases de données publiques et de fuites documentées.</p>
       <h3>Comment rechercher</h3>
       <p>La barre principale accepte :</p>
       <ul>
@@ -2078,6 +2190,29 @@ function savePrefs() {
   try { localStorage.setItem("seekit-prefs", JSON.stringify(prefs)); } catch {}
 }
 loadPrefs();
+
+(function maintenanceBanner() {
+  const banner = document.getElementById("maintenanceBanner");
+  const closeBtn = document.getElementById("maintenanceClose");
+  if (!banner) return;
+
+  let dismissed = false;
+  try { dismissed = localStorage.getItem("seekit-maint-dismissed") === "1"; } catch {}
+
+  if (!dismissed) {
+    document.body.classList.add("has-maintenance");
+  } else {
+    banner.classList.add("hidden");
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", () => {
+      banner.classList.add("hidden");
+      document.body.classList.remove("has-maintenance");
+      try { localStorage.setItem("seekit-maint-dismissed", "1"); } catch {}
+    });
+  }
+})();
 
 (function particlesEffect() {
   const canvas = document.getElementById("particles");
@@ -2194,6 +2329,7 @@ document.getElementById("clearCacheBtn").addEventListener("click", () => {
     localStorage.removeItem("seekit-prefs");
     localStorage.removeItem("seekit-sound");
     localStorage.removeItem("seekit-cookies");
+    localStorage.removeItem("seekit-maint-dismissed");
   } catch {}
   toast("Cache vidé — rechargement…", "success", 1500);
   setTimeout(() => location.reload(), 800);
@@ -2253,7 +2389,7 @@ document.getElementById("clearCacheBtn").addEventListener("click", () => {
 function animateCounter() {
   const el = document.getElementById("counter");
   if (!el) return;
-  const target = 22000000000;
+  const target = 12000000000;
   const duration = 2200;
   const start = performance.now();
   const format = n => {
@@ -2267,7 +2403,7 @@ function animateCounter() {
     const eased = 1 - Math.pow(1 - t, 3);
     el.textContent = format(Math.floor(target * eased));
     if (t < 1) requestAnimationFrame(step);
-    else el.textContent = "22 Md+";
+    else el.textContent = "12 Md+";
   }
   requestAnimationFrame(step);
 }
@@ -2662,19 +2798,13 @@ async function doSearch() {
   }
 }
 
-/**
- * Cherche récursivement un tableau de résultats dans une réponse JSON.
- * Gère la structure BrixHub : { ok, data: { data: { results: [...] }, meta } }
- */
 function findArray(obj, depth = 0) {
   if (depth > 6 || !obj) return null;
   if (Array.isArray(obj)) return obj;
   if (typeof obj === "object") {
-    // Priorité aux clés connues
     for (const k of ["results","data","items","records","hits","matches","persons","people"]) {
       if (Array.isArray(obj[k])) return obj[k];
     }
-    // Puis recherche récursive
     for (const k of Object.keys(obj)) {
       const r = findArray(obj[k], depth + 1);
       if (r) return r;
@@ -2998,7 +3128,6 @@ document.getElementById("go").addEventListener("click", async () => {
       return;
     }
 
-    // Structure : { ok, data: { data: { results: [...] }, meta } }
     const items = findArray(data?.data ?? data) || [];
 
     finishProgress();
