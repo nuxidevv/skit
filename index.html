@@ -2592,15 +2592,24 @@ const LABELS = {
   nom_famille: "Nom", nom_utilisateur: "Pseudo", pays: "Pays",
   prenom: "Prénom", ville: "Ville", telephone: "Téléphone",
   phone: "Téléphone", genre: "Genre", sexe: "Sexe",
-  adresse_ip: "Adresse IP", iban: "IBAN", bic: "BIC"
+  adresse_ip: "Adresse IP", iban: "IBAN", bic: "BIC",
+  nom_affichage: "Nom affiché", civilite: "Civilité",
+  telephone_digits: "Téléphone", jour_naissance: "Jour naissance",
+  mois_naissance: "Mois naissance"
 };
 
 const ORDER = [
-  "prenom","nom_famille","date_naissance","annee_naissance","lieu_naissance",
+  "prenom","nom_famille","nom_affichage","civilite",
+  "date_naissance","annee_naissance","jour_naissance","mois_naissance","lieu_naissance",
   "adresse","code_postal","ville","departement","pays",
-  "email","telephone","phone","nom_utilisateur",
+  "email","telephone","telephone_digits","phone","nom_utilisateur",
   "adresse_ip","iban","bic",
-  "_source_db","_confidence","genre","sexe"
+  "_source_db","_sources","_confidence","genre","sexe"
+];
+
+const HIDDEN_KEYS = [
+  "_all_text", "_dedup_key", "_es_ids", "_source_files",
+  "_premium_sourced", "_sources", "_confidence", "_source_db"
 ];
 
 function labelOf(k) {
@@ -2653,13 +2662,19 @@ async function doSearch() {
   }
 }
 
+/**
+ * Cherche récursivement un tableau de résultats dans une réponse JSON.
+ * Gère la structure BrixHub : { ok, data: { data: { results: [...] }, meta } }
+ */
 function findArray(obj, depth = 0) {
-  if (depth > 4 || !obj) return null;
+  if (depth > 6 || !obj) return null;
   if (Array.isArray(obj)) return obj;
   if (typeof obj === "object") {
+    // Priorité aux clés connues
     for (const k of ["results","data","items","records","hits","matches","persons","people"]) {
       if (Array.isArray(obj[k])) return obj[k];
     }
+    // Puis recherche récursive
     for (const k of Object.keys(obj)) {
       const r = findArray(obj[k], depth + 1);
       if (r) return r;
@@ -2787,21 +2802,24 @@ function renderCard(item, idx, dupCount = 0) {
     : "";
 
   const keys = Object.keys(item).filter(k =>
-    item[k] != null && item[k] !== "" && typeof item[k] !== "object"
+    item[k] != null &&
+    item[k] !== "" &&
+    typeof item[k] !== "object" &&
+    !HIDDEN_KEYS.includes(k)
   );
   const sorted = [
     ...ORDER.filter(k => keys.includes(k)),
     ...keys.filter(k => !ORDER.includes(k))
   ];
 
-  const monoKeys = ["email","telephone","phone","nom_utilisateur","code_postal","date_naissance","iban","bic","adresse_ip"];
+  const monoKeys = ["email","telephone","telephone_digits","phone","nom_utilisateur","code_postal","date_naissance","iban","bic","adresse_ip"];
 
   const rows = sorted.map(k => {
     let v = item[k];
     let html;
     if (k === "email") {
       html = `<a href="mailto:${escapeHtml(v)}">${escapeHtml(v)}</a>`;
-    } else if (k === "telephone" || k === "phone") {
+    } else if (k === "telephone" || k === "phone" || k === "telephone_digits") {
       html = `<a href="tel:${escapeHtml(v)}">${escapeHtml(v)}</a>`;
     } else {
       html = escapeHtml(v);
@@ -2980,6 +2998,7 @@ document.getElementById("go").addEventListener("click", async () => {
       return;
     }
 
+    // Structure : { ok, data: { data: { results: [...] }, meta } }
     const items = findArray(data?.data ?? data) || [];
 
     finishProgress();
