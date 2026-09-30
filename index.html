@@ -2947,12 +2947,6 @@ function bindCardActions(list) {
   list.querySelectorAll(".card").forEach(attach3DTilt);
 }
 
-function render(result) {
-  const out = document.getElementById("out");
-  out.innerHTML = "";
-  // On n'affiche RIEN dans la page — juste un toast
-}
-
 document.getElementById("go").addEventListener("click", async () => {
   const out = document.getElementById("out");
   const btn = document.getElementById("go");
@@ -2969,17 +2963,75 @@ document.getElementById("go").addEventListener("click", async () => {
   btnText.textContent = "Recherche…";
   startProgress();
   playSound("whoosh");
+  renderSkeletons(3);
 
-  // Petit délai puis toast de maintenance, sans toucher au scroll
-  setTimeout(() => {
-    out.innerHTML = "";
-    toast("Nos serveurs sont en maintenance pour le moment…", "error", 4000);
-    playSound("error");
+  try {
+    const { ok, status, data, error } = await doSearch();
+
+    if (!ok || (data && data.ok === false)) {
+      finishProgress();
+      out.innerHTML = "";
+      const msg = (data && data.error) || error || `Erreur ${status}`;
+      toast("Erreur : " + msg, "error", 4000);
+      playSound("error");
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      btnText.textContent = "Rechercher";
+      return;
+    }
+
+    const items = findArray(data?.data ?? data) || [];
+
     finishProgress();
-    btn.disabled = false;
-    btn.classList.remove("loading");
-    btnText.textContent = "Rechercher";
-  }, 1200);
+
+    if (!items.length) {
+      out.innerHTML = "";
+      toast("Aucun résultat trouvé", "error", 3000);
+      playSound("error");
+      btn.disabled = false;
+      btn.classList.remove("loading");
+      btnText.textContent = "Rechercher";
+      return;
+    }
+
+    currentItems = items;
+
+    const groups = groupDuplicates(items);
+    const flat = [];
+    groups.forEach(g => {
+      g.forEach((item) => {
+        flat.push({ item, dupCount: g.length, originalIdx: items.indexOf(item) });
+      });
+    });
+    flat.sort((a, b) => a.originalIdx - b.originalIdx);
+
+    out.innerHTML = "";
+
+    const statusEl = document.createElement("div");
+    statusEl.className = "status";
+    statusEl.textContent = `${items.length} résultat${items.length > 1 ? "s" : ""} trouvé${items.length > 1 ? "s" : ""}`;
+    out.appendChild(statusEl);
+
+    const list = document.createElement("div");
+    list.id = "resultsList";
+    list.className = prefs.view === "grid" ? "grid-view" : "";
+    list.innerHTML = flat.map(({ item, dupCount }, i) => renderCard(item, i, dupCount)).join("");
+    out.appendChild(list);
+
+    bindCardActions(list);
+
+    toast(`${items.length} résultat${items.length > 1 ? "s" : ""}`, "success", 2000);
+    playSound("ding");
+  } catch (err) {
+    finishProgress();
+    out.innerHTML = "";
+    toast("Erreur : " + err.message, "error", 4000);
+    playSound("error");
+  }
+
+  btn.disabled = false;
+  btn.classList.remove("loading");
+  btnText.textContent = "Rechercher";
 });
 
 attachRipple(document.getElementById("go"));
