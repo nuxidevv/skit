@@ -1,5 +1,7 @@
 import https from "https";
 
+const BRIXHUB_URL = "https://api.brixhub.ru/api/v1/search";
+
 const BLOCKED_TARGETS = [
   { prenom: "leo",    nom: "roman" },
   { prenom: "lucile", nom: "roman" },
@@ -77,7 +79,7 @@ async function tryBrixhub(payload) {
     "Accept": "application/json",
     "X-API-Key": KEY
   };
-  const r = await httpsPost("https://api.brixhub.to/api/v1/search", headers, payload);
+  const r = await httpsPost(BRIXHUB_URL, headers, payload);
   let parsed = null;
   try { parsed = JSON.parse(r.body); } catch { parsed = r.body; }
   return { ok: r.status >= 200 && r.status < 300, status: r.status, error: r.error || null, data: parsed };
