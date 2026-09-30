@@ -74,10 +74,8 @@ function emptyResponse(a, b) {
 }
 
 async function tryBrixhub(payload) {
-  const KEY = process.env.BRIXHUB_KEY || "";
   const headers = {
-    "Accept": "application/json",
-    "X-API-Key": KEY
+    "Accept": "application/json"
   };
   const r = await httpsPost(BRIXHUB_URL, headers, payload);
   let parsed = null;
