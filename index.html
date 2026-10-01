@@ -91,12 +91,13 @@
   }
   .progress-bar.active { opacity:1; }
 
+  /* ===== NAVBAR ===== */
   nav.topbar {
     position:fixed;
     top:14px;
     left:50%;
     transform:translateX(-50%);
-    z-index:50;
+    z-index:60;
     max-width:calc(1400px - 32px);
     width:calc(100% - 32px);
     padding:10px 18px;
@@ -163,6 +164,99 @@
     100% { transform:translateX(100%); }
   }
   .brand-mark svg { width:15px; height:15px; color:#fff; position:relative; z-index:1; }
+
+  /* ===== BANNIÈRE MAINTENANCE (sous navbar, fixe) ===== */
+  .maintenance-banner {
+    position:fixed;
+    top:72px;              /* juste sous la navbar */
+    left:50%;
+    transform:translateX(-50%);
+    z-index:55;            /* sous la navbar (60) mais au-dessus du contenu */
+    max-width:calc(1400px - 32px);
+    width:calc(100% - 32px);
+    padding:10px 16px;
+    border-radius:18px;
+    background:linear-gradient(90deg, rgba(245,158,11,0.16) 0%, rgba(239,68,68,0.16) 50%, rgba(245,158,11,0.16) 100%);
+    border:1px solid rgba(245,158,11,0.4);
+    backdrop-filter:blur(28px) saturate(200%);
+    -webkit-backdrop-filter:blur(28px) saturate(200%);
+    box-shadow:
+      0 8px 32px rgba(0,0,0,0.4),
+      0 0 0 0.5px rgba(255,255,255,0.04) inset,
+      0 1px 0 0 rgba(255,255,255,0.08) inset,
+      0 4px 24px rgba(245,158,11,0.15);
+    animation:maintSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+    transition:transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+  }
+  .maintenance-banner.hidden {
+    transform:translateX(-50%) translateY(-140%);
+    opacity:0;
+    pointer-events:none;
+  }
+  @keyframes maintSlide {
+    from { transform:translateX(-50%) translateY(-140%); opacity:0; }
+    to { transform:translateX(-50%) translateY(0); opacity:1; }
+  }
+  .maintenance-content {
+    max-width:1400px;
+    margin:0 auto;
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .maintenance-icon {
+    width:28px; height:28px;
+    border-radius:9px;
+    background:rgba(245,158,11,0.22);
+    border:1px solid rgba(245,158,11,0.45);
+    color:var(--orange);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    animation:maintPulse 2.5s ease-in-out infinite;
+  }
+  .maintenance-icon svg { width:14px; height:14px; }
+  @keyframes maintPulse {
+    0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.4); }
+    50% { box-shadow:0 0 0 8px rgba(245,158,11,0); }
+  }
+  .maintenance-text {
+    flex:1;
+    font-size:0.75rem;
+    line-height:1.5;
+    color:var(--text-dim);
+    letter-spacing:0.01em;
+    min-width:0;
+  }
+  .maintenance-text strong {
+    color:var(--orange);
+    font-weight:700;
+    margin-right:4px;
+  }
+  .maintenance-close {
+    width:26px; height:26px;
+    border-radius:8px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.12);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    cursor:pointer;
+    flex-shrink:0;
+    transition:all 0.2s;
+    color:var(--text-dim);
+  }
+  .maintenance-close:hover {
+    background:rgba(255,255,255,0.14);
+    border-color:rgba(255,255,255,0.24);
+    color:var(--text);
+    transform:scale(1.08);
+  }
+  .maintenance-close svg { width:11px; height:11px; }
+
+  /* Quand la bannière est visible : on pousse le contenu vers le bas */
+  body.has-maintenance { padding-top:150px; }
 
   main { position:relative; z-index:1; }
   .container { max-width:900px; margin:0 auto; padding:0 24px; }
@@ -773,7 +867,7 @@
     letter-spacing:0.05em;
   }
 
-  #out { margin-top:32px; scroll-margin-top:100px; }
+  #out { margin-top:32px; scroll-margin-top:160px; }
 
   .status {
     font-size:0.72rem; color:var(--text-dim);
@@ -1275,91 +1369,6 @@
   ::-webkit-scrollbar-thumb { background:var(--border-hover); border-radius:3px; }
   ::selection { background:var(--glow); color:var(--text); }
 
-  /* ===== BANNIÈRE MAINTENANCE ===== */
-  .maintenance-banner {
-    position:fixed;
-    top:0; left:0; right:0;
-    z-index:200;
-    padding:10px 16px;
-    background:linear-gradient(90deg, rgba(245,158,11,0.15) 0%, rgba(239,68,68,0.15) 50%, rgba(245,158,11,0.15) 100%);
-    border-bottom:1px solid rgba(245,158,11,0.35);
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-    box-shadow:0 4px 24px rgba(245,158,11,0.15);
-    animation:maintSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    transition:transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
-  }
-  .maintenance-banner.hidden {
-    transform:translateY(-100%);
-    opacity:0;
-    pointer-events:none;
-  }
-  @keyframes maintSlide {
-    from { transform:translateY(-100%); opacity:0; }
-    to { transform:translateY(0); opacity:1; }
-  }
-  .maintenance-content {
-    max-width:1400px;
-    margin:0 auto;
-    display:flex;
-    align-items:center;
-    gap:12px;
-  }
-  .maintenance-icon {
-    width:28px; height:28px;
-    border-radius:9px;
-    background:rgba(245,158,11,0.2);
-    border:1px solid rgba(245,158,11,0.4);
-    color:var(--orange);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    animation:maintPulse 2.5s ease-in-out infinite;
-  }
-  .maintenance-icon svg { width:14px; height:14px; }
-  @keyframes maintPulse {
-    0%,100% { box-shadow:0 0 0 0 rgba(245,158,11,0.4); }
-    50% { box-shadow:0 0 0 8px rgba(245,158,11,0); }
-  }
-  .maintenance-text {
-    flex:1;
-    font-size:0.75rem;
-    line-height:1.5;
-    color:var(--text-dim);
-    letter-spacing:0.01em;
-    min-width:0;
-  }
-  .maintenance-text strong {
-    color:var(--orange);
-    font-weight:700;
-    margin-right:4px;
-  }
-  .maintenance-close {
-    width:26px; height:26px;
-    border-radius:8px;
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.1);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    cursor:pointer;
-    flex-shrink:0;
-    transition:all 0.2s;
-    color:var(--text-dim);
-  }
-  .maintenance-close:hover {
-    background:rgba(255,255,255,0.12);
-    border-color:rgba(255,255,255,0.2);
-    color:var(--text);
-    transform:scale(1.08);
-  }
-  .maintenance-close svg { width:11px; height:11px; }
-
-  body.has-maintenance { padding-top:120px; }
-  body.has-maintenance nav.topbar { top:58px; }
-  body.has-maintenance .scroll-top { bottom:80px; }
-
   @media (max-width:640px) {
     body { padding-top:70px; }
     section.hero { padding:20px 20px 40px; }
@@ -1368,21 +1377,40 @@
     .brand-mark { width:26px; height:26px; }
     .brand-mark svg { width:13px; height:13px; }
     .brand { font-size:0.95rem; }
+    .maintenance-banner {
+      top:60px;
+      padding:9px 12px;
+      border-radius:14px;
+    }
+    .maintenance-text { font-size:0.68rem; line-height:1.4; }
+    .maintenance-icon { width:24px; height:24px; }
+    .maintenance-icon svg { width:12px; height:12px; }
+    body.has-maintenance { padding-top:130px; }
+    #out { scroll-margin-top:140px; }
     .row { flex-direction:column; gap:2px; }
     .row-label { min-width:0; }
     .copy-btn { opacity:1; }
     .cookie-banner { bottom:12px; padding:16px; }
     .filters-grid { grid-template-columns:1fr; }
-    .maintenance-text { font-size:0.68rem; line-height:1.4; }
-    .maintenance-icon { width:24px; height:24px; }
-    .maintenance-icon svg { width:12px; height:12px; }
-    body.has-maintenance { padding-top:110px; }
-    body.has-maintenance nav.topbar { top:52px; }
   }
 </style>
 </head>
 <body>
 
+<!-- NAVBAR -->
+<nav class="topbar">
+  <div class="brand">
+    <div class="brand-mark">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="11" cy="11" r="8"></circle>
+        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+      </svg>
+    </div>
+    <span>Seek It</span>
+  </div>
+</nav>
+
+<!-- BANNIÈRE MAINTENANCE (fixe, sous la navbar) -->
 <div class="maintenance-banner" id="maintenanceBanner">
   <div class="maintenance-content">
     <div class="maintenance-icon">
@@ -1407,18 +1435,6 @@
 <canvas id="particles"></canvas>
 
 <div class="progress-bar" id="progressBar"></div>
-
-<nav class="topbar">
-  <div class="brand">
-    <div class="brand-mark">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="11" cy="11" r="8"></circle>
-        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-      </svg>
-    </div>
-    <span>Seek It</span>
-  </div>
-</nav>
 
 <main>
   <section class="hero">
@@ -1748,6 +1764,7 @@ const FILTER_IDS = {
   _confidence: "f_confidence"
 };
 
+/* ===== BANNIÈRE MAINTENANCE ===== */
 (function maintenanceBanner() {
   const banner = document.getElementById("maintenanceBanner");
   const closeBtn = document.getElementById("maintenanceClose");
@@ -1758,8 +1775,10 @@ const FILTER_IDS = {
 
   if (!dismissed) {
     document.body.classList.add("has-maintenance");
+    banner.classList.remove("hidden");
   } else {
     banner.classList.add("hidden");
+    document.body.classList.remove("has-maintenance");
   }
 
   if (closeBtn) {
@@ -1771,6 +1790,7 @@ const FILTER_IDS = {
   }
 })();
 
+/* ===== PARTICULES ===== */
 (function particlesEffect() {
   const canvas = document.getElementById("particles");
   if (!canvas) return;
@@ -1840,6 +1860,7 @@ const FILTER_IDS = {
   requestAnimationFrame(draw);
 })();
 
+/* ===== COOKIES ===== */
 (function cookieManager() {
   const banner = document.getElementById("cookieBanner");
   const accept = document.getElementById("cookieAccept");
@@ -1871,7 +1892,7 @@ const FILTER_IDS = {
   }
 })();
 
-// Compteur animé au chargement
+/* ===== COMPTEUR ===== */
 (function startCounter() {
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", animateCounter);
@@ -1902,6 +1923,7 @@ function animateCounter() {
   requestAnimationFrame(step);
 }
 
+/* ===== PROGRESS BAR ===== */
 const progressBar = document.getElementById("progressBar");
 let progressTimer = null;
 function startProgress() {
@@ -1923,6 +1945,7 @@ function finishProgress() {
   }, 300);
 }
 
+/* ===== TOASTS ===== */
 const toastContainer = document.getElementById("toastContainer");
 function toast(message, type = "success", duration = 3000) {
   const el = document.createElement("div");
@@ -1935,6 +1958,7 @@ function toast(message, type = "success", duration = 3000) {
   }, duration);
 }
 
+/* ===== RIPPLE ===== */
 function attachRipple(el) {
   el.addEventListener("click", (e) => {
     const rect = el.getBoundingClientRect();
@@ -1951,6 +1975,7 @@ function attachRipple(el) {
   });
 }
 
+/* ===== INPUT PRINCIPAL ===== */
 const input = document.getElementById("target");
 const inputClear = document.getElementById("inputClear");
 const inputTypeBadge = document.getElementById("inputTypeBadge");
@@ -1992,6 +2017,7 @@ inputClear.addEventListener("click", () => {
   input.focus();
 });
 
+/* ===== FILTRES ===== */
 function readFilters() {
   const f = {};
   Object.keys(FILTER_IDS).forEach(k => {
@@ -2042,6 +2068,7 @@ document.getElementById("filtersToggle").addEventListener("click", () => {
   toggle.classList.toggle("open");
 });
 
+/* ===== SCROLL TOP ===== */
 const scrollTopBtn = document.getElementById("scrollTop");
 window.addEventListener("scroll", () => {
   scrollTopBtn.classList.toggle("visible", window.scrollY > 400);
@@ -2050,6 +2077,7 @@ scrollTopBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
 });
 
+/* ===== MODALS ===== */
 function openModal(id) {
   document.getElementById(id).classList.add("open");
   document.body.classList.add("modal-open");
@@ -2086,6 +2114,7 @@ document.addEventListener("keydown", (e) => {
   }
 });
 
+/* ===== UTILS ===== */
 function escapeHtml(s) {
   return String(s ?? "").replace(/[&<>"']/g, m => ({
     "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
@@ -2139,6 +2168,7 @@ function labelOf(k) {
   return LABELS[k] || k.replace(/_/g, " ");
 }
 
+/* ===== SEARCH URL ===== */
 function buildSearchUrl() {
   const v = input.value.trim();
   const filters = readFilters();
@@ -2185,6 +2215,7 @@ async function doSearch() {
   }
 }
 
+/* ===== FIND ARRAY ===== */
 function findArray(obj, depth = 0) {
   if (depth > 6 || !obj) return null;
   if (Array.isArray(obj)) return obj;
@@ -2313,7 +2344,7 @@ function renderCard(item, idx, dupCount = 0) {
     : "";
 
   const dupBadge = dupCount > 1
-    ? `<span class="dup-badge" title="${dupCount} entrées similaires">${dupCount}</span>`
+    ? `<span class="dup-badge" title="${dupCount} entrées similaires">${dupCount}</phonespan>`
     : "";
 
   const keys = Object.keys(item).filter(k =>
@@ -2327,15 +2358,15 @@ function renderCard(item, idx, dupCount = 0) {
     ...keys.filter(k => !ORDER.includes(k))
   ];
 
-  const monoKeys = ["email","telephone","telephone_digits","phone","nom_utilisateur","code_postal","date_naissance","iban","bic","adresse_ip"];
+  const monoKeys = ["email","telephone","telephone_digits","phone","nom_utilisateur","code_postal","date_naissance_d","iban","bic","adresseigits_ip"];
 
-  const rows = sorted.map(k => {
-    let v = item[k];
+  const rows =") sorted.map(k => {
+    let v = {
+ item[k];
     let html;
-    if (k === "email") {
+    if      (k === "email") {
       html = `<a href="mailto:${escapeHtml(v)}">${escapeHtml(v)}</a>`;
-    } else if (k === "telephone" || k === "phone" || k === "telephone_digits") {
-      html = `<a href="tel:${escapeHtml(v)}">${escapeHtml(v)}</a>`;
+    } else if (k === "telephone" || k === "phone" || k === "tele html = `<a href="tel:${escapeHtml(v)}">${escapeHtml(v)}</a>`;
     } else {
       html = escapeHtml(v);
     }
@@ -2450,6 +2481,7 @@ function bindCardActions(list) {
   list.querySelectorAll(".card").forEach(attach3DTilt);
 }
 
+/* ===== BOUTON RECHERCHER ===== */
 document.getElementById("go").addEventListener("click", async () => {
   const out = document.getElementById("out");
   const btn = document.getElementById("go");
@@ -2523,7 +2555,7 @@ document.getElementById("go").addEventListener("click", async () => {
     setTimeout(() => {
       const target = document.getElementById("out");
       if (target) {
-        const y = target.getBoundingClientRect().top + window.pageYOffset - 100;
+        const y = target.getBoundingClientRect().top + window.pageYOffset - 160;
         window.scrollTo({ top: y, behavior: "smooth" });
       }
     }, 150);
@@ -2546,6 +2578,7 @@ input.addEventListener("keydown", e => {
 
 document.querySelectorAll(".icon-btn").forEach(attachRipple);
 
+/* ===== TYPEWRITER ===== */
 (function typewriterEffect() {
   const el = document.getElementById("typewriter");
   if (!el) return;
@@ -2571,7 +2604,7 @@ document.querySelectorAll(".icon-btn").forEach(attachRipple);
 
     const prefixShown = fullPrefix.slice(0, Math.min(charIndex, fullPrefix.length));
     const wordShown = charIndex > fullPrefix.length
-      ? fullWord.slice(0, charIndex - fullPrefix.length)
+     Index ? fullWord.slice(0, charIndex - fullPrefix.length)
       : "";
 
     el.innerHTML =
@@ -2597,7 +2630,7 @@ document.querySelectorAll(".icon-btn").forEach(attachRipple);
       render();
       if (charIndex <= 0) {
         isDeleting = false;
-        wordIndex = (wordIndex + 1) % words.length;
+        wordIndex = (word + 1) % words.length;
         timeoutId = setTimeout(tick, 400);
         return;
       }
