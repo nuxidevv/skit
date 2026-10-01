@@ -898,7 +898,7 @@
     letter-spacing:0.05em;
   }
 
-  #out { margin-top:32px; }
+  #out { margin-top:32px; scroll-margin-top:100px; }
 
   .status {
     font-size:0.72rem; color:var(--text-dim);
@@ -1698,7 +1698,6 @@
   }
   .maintenance-close svg { width:11px; height:11px; }
 
-  /* Décale le body quand la bannière est visible */
   body.has-maintenance { padding-top:120px; }
   body.has-maintenance nav.topbar { top:58px; }
   body.has-maintenance .scroll-top { bottom:80px; }
@@ -3170,6 +3169,15 @@ document.getElementById("go").addEventListener("click", async () => {
 
     toast(`${items.length} résultat${items.length > 1 ? "s" : ""}`, "success", 2000);
     playSound("ding");
+
+    // ✅ Scroll automatique vers les résultats
+    setTimeout(() => {
+      const target = document.getElementById("out");
+      if (target) {
+        const y = target.getBoundingClientRect().top + window.pageYOffset - 100;
+        window.scrollTo({ top: y, behavior: "smooth" });
+      }
+    }, 150);
   } catch (err) {
     finishProgress();
     out.innerHTML = "";
