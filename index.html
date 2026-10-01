@@ -143,7 +143,7 @@
     padding:10px 18px;
     display:flex;
     align-items:center;
-    justify-content:space-between;
+    justify-content:center;
     border-radius:100px;
     background:var(--glass-tint);
     backdrop-filter:blur(28px) saturate(200%);
@@ -180,7 +180,7 @@
 
   .brand {
     display:flex; align-items:center; gap:10px;
-    font-weight:800; font-size:1rem; letter-spacing:-0.02em;
+    font-weight:800; font-size:1.05rem; letter-spacing:-0.02em;
     cursor:default;
     position:relative;
     z-index:2;
@@ -204,84 +204,6 @@
     100% { transform:translateX(100%); }
   }
   .brand-mark svg { width:15px; height:15px; color:#fff; position:relative; z-index:1; }
-
-  .nav-actions { display:flex; gap:8px; align-items:center; position:relative; z-index:2; }
-
-  .nav-btn {
-    width:34px; height:34px; border-radius:12px;
-    background:var(--glass-tint);
-    border:1px solid var(--border);
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
-    position:relative;
-    overflow:hidden;
-    box-shadow:
-      0 4px 12px var(--glass-shadow),
-      0 1px 0 0 var(--glass-highlight) inset;
-  }
-  .nav-btn::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:50%;
-    background:linear-gradient(180deg, var(--glass-highlight) 0%, transparent 100%);
-    border-radius:12px 12px 0 0;
-    pointer-events:none;
-  }
-  .nav-btn:hover {
-    border-color:var(--border-hover);
-    transform:translateY(-2px);
-    box-shadow:
-      0 8px 20px var(--glow),
-      0 1px 0 0 var(--glass-highlight) inset;
-  }
-  .nav-btn:active { transform:translateY(0) scale(0.95); }
-  .nav-btn svg {
-    width:15px; height:15px;
-    color:var(--text-dim);
-    transition:color 0.2s, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    position:relative; z-index:1;
-  }
-  .nav-btn:hover svg { color:var(--text); }
-  .nav-btn.off svg { color:var(--text-dimmer); }
-
-  .nav-link {
-    font-size:0.78rem; font-weight:500;
-    color:var(--text-dim); text-decoration:none;
-    padding:9px 16px; border-radius:12px;
-    cursor:pointer;
-    border:1px solid var(--border);
-    background:var(--glass-tint);
-    font-family:inherit;
-    position:relative;
-    overflow:hidden;
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
-    box-shadow:
-      0 4px 12px var(--glass-shadow),
-      0 1px 0 0 var(--glass-highlight) inset;
-    transition:all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .nav-link::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:50%;
-    background:linear-gradient(180deg, var(--glass-highlight) 0%, transparent 100%);
-    pointer-events:none;
-    border-radius:12px 12px 0 0;
-  }
-  .nav-link:hover {
-    color:var(--text);
-    border-color:var(--border-hover);
-    transform:translateY(-2px);
-    box-shadow:
-      0 8px 20px var(--glow),
-      0 1px 0 0 var(--glass-highlight) inset;
-  }
 
   main { position:relative; z-index:1; }
   .container { max-width:900px; margin:0 auto; padding:0 24px; }
@@ -900,11 +822,6 @@
     letter-spacing:0.02em;
     animation:fadeUp 0.4s ease-out;
   }
-  .none {
-    color:var(--text-dim); font-size:0.85rem;
-    text-align:center; padding:40px 20px;
-    animation:fadeUp 0.4s ease-out;
-  }
 
   .skeleton {
     background:var(--glass-tint);
@@ -1167,34 +1084,6 @@
     position:relative; z-index:2;
   }
   .dup-info svg { width:11px; height:11px; flex-shrink:0; }
-
-  #resultsList.grid-view {
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
-    gap:12px;
-  }
-  #resultsList.grid-view .card {
-    margin-bottom:0;
-    padding:18px;
-  }
-  #resultsList.grid-view .row {
-    flex-direction:column;
-    gap:2px;
-  }
-  #resultsList.grid-view .row-label { min-width:0; font-size:0.6rem; }
-  #resultsList.grid-view .copy-btn { opacity:0.6; }
-  #resultsList.grid-view .card:hover .copy-btn { opacity:1; }
-
-  .err {
-    background:rgba(239,68,68,0.08); color:var(--red);
-    padding:14px 16px; border-radius:14px;
-    font-size:0.75rem; margin-top:14px;
-    white-space:pre-wrap; word-break:break-word;
-    border:1px solid rgba(239,68,68,0.25);
-    animation:fadeUp 0.4s ease-out;
-    backdrop-filter:blur(24px) saturate(180%);
-    -webkit-backdrop-filter:blur(24px) saturate(180%);
-  }
 
   @keyframes fadeUp {
     from { opacity:0; transform:translateY(12px); }
@@ -1519,12 +1408,10 @@
     nav.topbar { top:10px; padding:8px 14px; }
     .brand-mark { width:26px; height:26px; }
     .brand-mark svg { width:13px; height:13px; }
-    .nav-btn { width:30px; height:30px; }
-    .nav-link.hide-mobile { display:none; }
+    .brand { font-size:0.95rem; }
     .row { flex-direction:column; gap:2px; }
     .row-label { min-width:0; }
     .copy-btn { opacity:1; }
-    #resultsList.grid-view { grid-template-columns:1fr; }
     .cookie-banner { bottom:12px; padding:16px; }
     .filters-grid { grid-template-columns:1fr; }
     .maintenance-text { font-size:0.68rem; line-height:1.4; }
@@ -1583,15 +1470,6 @@
       </svg>
     </div>
     <span>Seek It</span>
-  </div>
-  <div class="nav-actions">
-    <button class="nav-btn" id="soundToggle" aria-label="Son">
-      <svg id="soundIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
-        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
-      </svg>
-    </button>
-    <button class="nav-link hide-mobile" id="aboutLink">À propos</button>
   </div>
 </nav>
 
@@ -1842,7 +1720,7 @@
     <div class="cookie-text">
       <div class="cookie-title">Votre vie privée nous importe</div>
       <div class="cookie-desc">
-        Seek It utilise uniquement un stockage local pour vos préférences (son, vue, animations). Aucun cookie de tracking, aucune donnée envoyée à des tiers. En continuant, vous acceptez notre <a id="cookieLegalLink">politique de confidentialité</a>.
+        Seek It utilise uniquement un stockage local pour vos préférences. Aucun cookie de tracking, aucune donnée envoyée à des tiers. En continuant, vous acceptez notre <a id="cookieLegalLink">politique de confidentialité</a>.
       </div>
     </div>
   </div>
@@ -2055,7 +1933,6 @@ const FILTER_IDS = {
     done = true;
     loader.classList.add("hidden");
     try { animateCounter(); } catch (e) {}
-    try { playSound("loader"); } catch (e) {}
     setTimeout(() => { if (loader.parentNode) loader.remove(); }, 800);
   }
   if (document.readyState === "loading") {
@@ -2120,98 +1997,6 @@ function toast(message, type = "success", duration = 3000) {
     setTimeout(() => el.remove(), 300);
   }, duration);
 }
-
-let soundEnabled = true;
-const soundIconOn = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>`;
-const soundIconOff = `<polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><line x1="23" y1="9" x2="17" y2="15"></line><line x1="17" y1="9" x2="23" y2="15"></line>`;
-try { soundEnabled = localStorage.getItem("seekit-sound") !== "off"; } catch {}
-
-const soundToggle = document.getElementById("soundToggle");
-const soundIcon = document.getElementById("soundIcon");
-function updateSoundIcon() {
-  soundIcon.innerHTML = soundEnabled ? soundIconOn : soundIconOff;
-  soundToggle.classList.toggle("off", !soundEnabled);
-}
-updateSoundIcon();
-
-soundToggle.addEventListener("click", () => {
-  soundEnabled = !soundEnabled;
-  updateSoundIcon();
-  try { localStorage.setItem("seekit-sound", soundEnabled ? "on" : "off"); } catch {}
-  toast(soundEnabled ? "Son activé" : "Son désactivé", "success", 1500);
-  if (soundEnabled) playSound("ding");
-});
-
-let audioCtx = null;
-function ensureAudio() {
-  if (!audioCtx) {
-    try { audioCtx = new (window.AudioContext || window.webkitAudioContext)(); } catch { return null; }
-  }
-  if (audioCtx.state === "suspended") audioCtx.resume();
-  return audioCtx;
-}
-
-function playSound(type) {
-  if (!soundEnabled) return;
-  const ctx = ensureAudio();
-  if (!ctx) return;
-  try {
-    if (type === "loader") {
-      const notes = [523.25, 659.25, 783.99, 1046.50];
-      notes.forEach((f, i) => {
-        const o = ctx.createOscillator();
-        const g = ctx.createGain();
-        o.type = "sine";
-        o.frequency.value = f;
-        g.gain.setValueAtTime(0, ctx.currentTime + i * 0.08);
-        g.gain.linearRampToValueAtTime(0.06, ctx.currentTime + i * 0.08 + 0.02);
-        g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + i * 0.08 + 0.3);
-        o.connect(g); g.connect(ctx.destination);
-        o.start(ctx.currentTime + i * 0.08);
-        o.stop(ctx.currentTime + i * 0.08 + 0.35);
-      });
-    } else if (type === "ding") {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.frequency.setValueAtTime(880, ctx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(1320, ctx.currentTime + 0.1);
-      g.gain.setValueAtTime(0.08, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime + 0.3);
-    } else if (type === "error") {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.frequency.setValueAtTime(220, ctx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(140, ctx.currentTime + 0.25);
-      g.gain.setValueAtTime(0.07, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.3);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime + 0.3);
-    } else if (type === "click") {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.frequency.setValueAtTime(1200, ctx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.06);
-      g.gain.setValueAtTime(0.03, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime + 0.09);
-    } else if (type === "whoosh") {
-      const o = ctx.createOscillator();
-      const g = ctx.createGain();
-      o.type = "sawtooth";
-      o.frequency.setValueAtTime(180, ctx.currentTime);
-      o.frequency.exponentialRampToValueAtTime(680, ctx.currentTime + 0.35);
-      g.gain.setValueAtTime(0.04, ctx.currentTime);
-      g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
-      o.connect(g); g.connect(ctx.destination);
-      o.start(); o.stop(ctx.currentTime + 0.4);
-    }
-  } catch {}
-}
-
-document.addEventListener("click", () => { ensureAudio(); }, { once: true });
 
 function attachRipple(el) {
   el.addEventListener("click", (e) => {
@@ -2311,7 +2096,6 @@ Object.values(FILTER_IDS).forEach(id => {
 document.getElementById("resetFilters").addEventListener("click", () => {
   clearFilters();
   toast("Filtres réinitialisés", "success", 1500);
-  playSound("click");
 });
 
 document.getElementById("filtersToggle").addEventListener("click", () => {
@@ -2319,7 +2103,6 @@ document.getElementById("filtersToggle").addEventListener("click", () => {
   const toggle = document.getElementById("filtersToggle");
   panel.classList.toggle("open");
   toggle.classList.toggle("open");
-  playSound("click");
 });
 
 const scrollTopBtn = document.getElementById("scrollTop");
@@ -2328,7 +2111,6 @@ window.addEventListener("scroll", () => {
 });
 scrollTopBtn.addEventListener("click", () => {
   window.scrollTo({ top: 0, behavior: "smooth" });
-  playSound("click");
 });
 
 function openModal(id) {
@@ -2340,23 +2122,16 @@ function closeModal(id) {
   document.body.classList.remove("modal-open");
 }
 
-document.getElementById("aboutLink").addEventListener("click", () => {
-  openModal("aboutModal");
-  playSound("click");
-});
 document.getElementById("aboutLink2").addEventListener("click", () => {
   openModal("aboutModal");
-  playSound("click");
 });
 document.getElementById("legalLink").addEventListener("click", () => {
   openModal("legalModal");
-  playSound("click");
 });
 
 document.querySelectorAll(".modal-close").forEach(btn => {
   btn.addEventListener("click", () => {
     closeModal(btn.getAttribute("data-close"));
-    playSound("click");
   });
 });
 document.querySelectorAll(".modal-overlay").forEach(overlay => {
@@ -2532,7 +2307,6 @@ function exportJSON(item, idx) {
   document.body.removeChild(a);
   URL.revokeObjectURL(url);
   toast("Fichier JSON exporté", "success");
-  playSound("ding");
 }
 
 function attach3DTilt(card) {
@@ -2641,7 +2415,7 @@ function renderCard(item, idx, dupCount = 0) {
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
-        </div >
+        </div>
       </div>`;
   }).join("");
 
@@ -2649,7 +2423,7 @@ function renderCard(item, idx, dupCount = 0) {
     ? `<div class="dup-info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 10-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
         ${dupCount} entrées similaires regroupées
       </div>`
@@ -2720,11 +2494,9 @@ function bindCardActions(list) {
       const ok = await copyToClipboard(val);
       if (ok) {
         btn.classList.add("copied");
-        playSound("click");
         setTimeout(() => btn.classList.remove("copied"), 1200);
       } else {
         toast("Échec de la copie", "error");
-        playSound("error");
       }
     });
   });
@@ -2748,7 +2520,6 @@ document.getElementById("go").addEventListener("click", async () => {
 
   if (!validate(input.value)) {
     toast("Entrée invalide", "error");
-    playSound("error");
     return;
   }
 
@@ -2756,7 +2527,6 @@ document.getElementById("go").addEventListener("click", async () => {
   btn.classList.add("loading");
   btnText.textContent = "Recherche…";
   startProgress();
-  playSound("whoosh");
   renderSkeletons(3);
 
   try {
@@ -2767,7 +2537,6 @@ document.getElementById("go").addEventListener("click", async () => {
       out.innerHTML = "";
       const msg = (data && data.error) || error || `Erreur ${status}`;
       toast("Erreur : " + msg, "error", 4000);
-      playSound("error");
       btn.disabled = false;
       btn.classList.remove("loading");
       btnText.textContent = "Rechercher";
@@ -2781,7 +2550,6 @@ document.getElementById("go").addEventListener("click", async () => {
     if (!items.length) {
       out.innerHTML = "";
       toast("Aucun résultat trouvé", "error", 3000);
-      playSound("error");
       btn.disabled = false;
       btn.classList.remove("loading");
       btnText.textContent = "Rechercher";
@@ -2801,7 +2569,7 @@ document.getElementById("go").addEventListener("click", async () => {
 
     out.innerHTML = "";
 
-    const statusEl = document.createElement("div");
+    const status.createElementEl = document("div");
     statusEl.className = "status";
     statusEl.textContent = `${items.length} résultat${items.length > 1 ? "s" : ""} trouvé${items.length > 1 ? "s" : ""}`;
     out.appendChild(statusEl);
@@ -2814,7 +2582,6 @@ document.getElementById("go").addEventListener("click", async () => {
     bindCardActions(list);
 
     toast(`${items.length} résultat${items.length > 1 ? "s" : ""}`, "success", 2000);
-    playSound("ding");
 
     setTimeout(() => {
       const target = document.getElementById("out");
@@ -2827,7 +2594,6 @@ document.getElementById("go").addEventListener("click", async () => {
     finishProgress();
     out.innerHTML = "";
     toast("Erreur : " + err.message, "error", 4000);
-    playSound("error");
   }
 
   btn.disabled = false;
@@ -2841,7 +2607,7 @@ input.addEventListener("keydown", e => {
   if (e.key === "Enter") document.getElementById("go").click();
 });
 
-document.querySelectorAll(".nav-btn, .nav-link, .icon-btn").forEach(attachRipple);
+document.querySelectorAll(".icon-btn").forEach(attachRipple);
 
 (function typewriterEffect() {
   const el = document.getElementById("typewriter");
