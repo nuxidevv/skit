@@ -83,47 +83,6 @@
     50% { opacity:1; transform:translateX(-50%) scale(1.05); }
   }
 
-  .page-loader {
-    position:fixed; inset:0;
-    background:rgba(10,10,15,0.7);
-    backdrop-filter:blur(8px) saturate(140%);
-    -webkit-backdrop-filter:blur(8px) saturate(140%);
-    display:flex; flex-direction:column; align-items:center; justify-content:center;
-    gap:20px; z-index:9999; transition:opacity 0.6s ease-out, visibility 0.6s;
-  }
-  .page-loader.hidden { opacity:0; visibility:hidden; pointer-events:none; }
-  .loader-logo {
-    width:64px; height:64px; border-radius:16px;
-    background:linear-gradient(135deg, #a855f7 0%, #3b82f6 100%);
-    display:flex; align-items:center; justify-content:center;
-    animation:loaderPulse 1.5s ease-in-out infinite;
-    box-shadow:0 0 60px rgba(168,85,247,0.4);
-  }
-  .loader-logo svg { width:32px; height:32px; color:#fff; }
-  @keyframes loaderPulse {
-    0%,100% { transform:scale(1); box-shadow:0 0 60px rgba(168,85,247,0.4); }
-    50% { transform:scale(1.05); box-shadow:0 0 80px rgba(168,85,247,0.6); }
-  }
-  .loader-text {
-    font-size:1.5rem; font-weight:800; letter-spacing:-0.03em;
-    color:var(--text); opacity:0; animation:loaderFadeIn 0.6s 0.2s forwards;
-  }
-  .loader-sub {
-    font-size:0.75rem; color:var(--text-dim); letter-spacing:0.05em;
-    opacity:0; animation:loaderFadeIn 0.6s 0.4s forwards;
-  }
-  @keyframes loaderFadeIn { to { opacity:1; } }
-  .loader-bar {
-    width:200px; height:2px; background:var(--border);
-    border-radius:2px; overflow:hidden; margin-top:12px;
-  }
-  .loader-bar-fill {
-    height:100%; background:linear-gradient(90deg, var(--purple), var(--blue));
-    width:0%; animation:loaderBar 1.5s ease-out forwards;
-    box-shadow:0 0 12px var(--purple);
-  }
-  @keyframes loaderBar { 0% { width:0%; } 100% { width:100%; } }
-
   .progress-bar {
     position:fixed; top:0; left:0; height:2px; width:0%;
     background:linear-gradient(90deg, var(--purple), var(--blue));
@@ -1447,18 +1406,6 @@
 
 <canvas id="particles"></canvas>
 
-<div class="page-loader" id="pageLoader">
-  <div class="loader-logo">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-      <circle cx="11" cy="11" r="8"></circle>
-      <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
-    </svg>
-  </div>
-  <div class="loader-text">Seek It</div>
-  <div class="loader-sub">Initialisation des bases de données…</div>
-  <div class="loader-bar"><div class="loader-bar-fill"></div></div>
-</div>
-
 <div class="progress-bar" id="progressBar"></div>
 
 <nav class="topbar">
@@ -1924,23 +1871,13 @@ const FILTER_IDS = {
   }
 })();
 
-(function initLoader() {
-  const loader = document.getElementById("pageLoader");
-  if (!loader) return;
-  let done = false;
-  function hideLoader() {
-    if (done) return;
-    done = true;
-    loader.classList.add("hidden");
-    try { animateCounter(); } catch (e) {}
-    setTimeout(() => { if (loader.parentNode) loader.remove(); }, 800);
-  }
+// Compteur animé au chargement
+(function startCounter() {
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", () => setTimeout(hideLoader, 1600));
+    document.addEventListener("DOMContentLoaded", animateCounter);
   } else {
-    setTimeout(hideLoader, 1600);
+    animateCounter();
   }
-  setTimeout(hideLoader, 3500);
 })();
 
 function animateCounter() {
@@ -2569,7 +2506,7 @@ document.getElementById("go").addEventListener("click", async () => {
 
     out.innerHTML = "";
 
-    const status.createElementEl = document("div");
+    const statusEl = document.createElement("div");
     statusEl.className = "status";
     statusEl.textContent = `${items.length} résultat${items.length > 1 ? "s" : ""} trouvé${items.length > 1 ? "s" : ""}`;
     out.appendChild(statusEl);
