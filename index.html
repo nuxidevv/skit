@@ -248,8 +248,6 @@
   .nav-btn:hover svg { color:var(--text); }
   .nav-btn.off svg { color:var(--text-dimmer); }
 
-  #settingsToggle:hover svg { transform:rotate(90deg); }
-
   .nav-link {
     font-size:0.78rem; font-weight:500;
     color:var(--text-dim); text-decoration:none;
@@ -383,10 +381,6 @@
   @keyframes blinkCursor {
     0%, 50% { opacity:1; }
     51%, 100% { opacity:0; }
-  }
-  .reduced-motion .cursor {
-    animation:none;
-    opacity:1;
   }
 
   .hero-sub {
@@ -912,94 +906,6 @@
     animation:fadeUp 0.4s ease-out;
   }
 
-  .toolbar {
-    display:none; align-items:center; justify-content:space-between;
-    gap:8px; margin-bottom:14px;
-    animation:fadeUp 0.4s ease-out;
-    flex-wrap:wrap;
-  }
-  .toolbar.visible { display:flex; }
-  .toolbar-left {
-    display:flex; gap:8px; align-items:center;
-    flex:1; min-width:0;
-  }
-  .sort-wrap { position:relative; flex:1; max-width:220px; }
-  .sort-select {
-    width:100%;
-    background:var(--glass-tint);
-    border:1px solid var(--border);
-    color:var(--text); padding:10px 32px 10px 14px;
-    border-radius:12px; font-size:0.72rem; font-family:inherit;
-    font-weight:500; cursor:pointer; outline:none;
-    appearance:none; -webkit-appearance:none;
-    transition:all 0.2s;
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    box-shadow:
-      0 4px 12px var(--glass-shadow),
-      0 1px 0 0 var(--glass-highlight) inset;
-  }
-  .sort-select:hover { border-color:var(--border-hover); }
-  .sort-select:focus { border-color:var(--purple); box-shadow:0 0 0 3px var(--glow), 0 1px 0 0 var(--glass-highlight) inset; }
-  .sort-select option { background:var(--card-solid); color:var(--text); }
-  .sort-wrap::after {
-    content:''; position:absolute; right:12px; top:50%;
-    transform:translateY(-50%) rotate(45deg);
-    width:6px; height:6px;
-    border-right:1.5px solid var(--text-dim);
-    border-bottom:1.5px solid var(--text-dim);
-    pointer-events:none; margin-top:-3px;
-  }
-
-  .view-toggle {
-    display:flex; gap:2px;
-    background:var(--glass-tint);
-    border:1px solid var(--border);
-    border-radius:12px; padding:3px;
-    backdrop-filter:blur(20px) saturate(180%);
-    -webkit-backdrop-filter:blur(20px) saturate(180%);
-    box-shadow:0 1px 0 0 var(--glass-highlight) inset;
-  }
-  .view-btn {
-    width:30px; height:30px; border-radius:9px;
-    background:transparent; border:none;
-    display:flex; align-items:center; justify-content:center;
-    cursor:pointer;
-    transition:all 0.2s;
-    color:var(--text-dim);
-    position:relative;
-    overflow:hidden;
-  }
-  .view-btn svg { width:14px; height:14px; position:relative; z-index:1; }
-  .view-btn:hover { color:var(--text); background:rgba(255,255,255,0.05); }
-  .view-btn.active {
-    background:var(--green-dim);
-    color:var(--purple);
-    box-shadow:0 0 0 1px var(--glow) inset;
-  }
-
-  .clear-all-btn {
-    background:var(--glass-tint);
-    border:1px solid var(--border);
-    color:var(--text-dim); padding:10px 16px; border-radius:12px;
-    font-size:0.72rem; font-family:inherit; font-weight:500;
-    cursor:pointer; display:flex; align-items:center; gap:6px;
-    transition:all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    white-space:nowrap;
-    backdrop-filter:blur(24px) saturate(200%);
-    -webkit-backdrop-filter:blur(24px) saturate(200%);
-    box-shadow:
-      0 4px 12px var(--glass-shadow),
-      0 1px 0 0 var(--glass-highlight) inset;
-    position:relative;
-    overflow:hidden;
-  }
-  .clear-all-btn:hover {
-    border-color:rgba(239,68,68,0.5); color:var(--red);
-    background:rgba(239,68,68,0.08);
-  }
-  .clear-all-btn svg { width:12px; height:12px; position:relative; }
-
   .skeleton {
     background:var(--glass-tint);
     border:1px solid var(--border);
@@ -1370,102 +1276,6 @@
   .modal-body ul { padding-left:18px; margin-bottom:12px; }
   .modal-body li { margin-bottom:4px; }
 
-  .settings-section { margin-bottom:22px; }
-  .settings-section:last-child { margin-bottom:0; }
-  .settings-label {
-    font-size:0.65rem;
-    font-weight:700;
-    color:var(--purple);
-    letter-spacing:0.12em;
-    text-transform:uppercase;
-    margin-bottom:10px;
-  }
-  .settings-row {
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:12px;
-    padding:11px 0;
-    border-bottom:1px solid var(--row-border);
-  }
-  .settings-row:last-child { border-bottom:none; }
-  .settings-info { flex:1; min-width:0; }
-  .settings-title {
-    font-size:0.82rem;
-    font-weight:600;
-    color:var(--text);
-    margin-bottom:3px;
-    letter-spacing:-0.01em;
-  }
-  .settings-desc {
-    font-size:0.7rem;
-    color:var(--text-dim);
-    line-height:1.5;
-  }
-
-  .toggle-switch {
-    position:relative;
-    width:42px;
-    height:24px;
-    flex-shrink:0;
-    border-radius:100px;
-    background:var(--border);
-    border:1px solid var(--border-hover);
-    cursor:pointer;
-    transition:all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .toggle-switch::after {
-    content:'';
-    position:absolute;
-    top:2px; left:2px;
-    width:18px; height:18px;
-    border-radius:50%;
-    background:var(--text-dim);
-    transition:all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-    box-shadow:0 2px 4px rgba(0,0,0,0.3);
-  }
-  .toggle-switch.active {
-    background:var(--purple);
-    border-color:var(--purple);
-  }
-  .toggle-switch.active::after {
-    left:calc(100% - 20px);
-    background:#fff;
-  }
-
-  .settings-btn {
-    width:100%;
-    padding:12px 16px;
-    background:var(--glass-tint);
-    border:1px solid var(--border);
-    color:var(--text-dim);
-    border-radius:12px;
-    font-size:0.78rem;
-    font-weight:600;
-    font-family:inherit;
-    cursor:pointer;
-    transition:all 0.2s cubic-bezier(0.22, 1, 0.36, 1);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:8px;
-    position:relative;
-    overflow:hidden;
-  }
-  .settings-btn:hover {
-    border-color:var(--border-hover);
-    color:var(--text);
-    background:var(--card-hover);
-  }
-  .settings-btn svg { width:14px; height:14px; position:relative; z-index:1; }
-  .settings-btn span { position:relative; z-index:1; }
-
-  .settings-btn.danger:hover {
-    border-color:rgba(239,68,68,0.5);
-    color:var(--red);
-    background:rgba(239,68,68,0.08);
-  }
-
   .toast-container {
     position:fixed; bottom:24px; left:50%;
     transform:translateX(-50%);
@@ -1781,12 +1591,6 @@
         <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
       </svg>
     </button>
-    <button class="nav-btn" id="settingsToggle" aria-label="Paramètres">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <circle cx="12" cy="12" r="3"></circle>
-        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
-      </svg>
-    </button>
     <button class="nav-link hide-mobile" id="aboutLink">À propos</button>
   </div>
 </nav>
@@ -2048,59 +1852,6 @@
   </div>
 </div>
 
-<div class="modal-overlay" id="settingsModal">
-  <div class="modal">
-    <button class="modal-close" data-close="settingsModal">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-        <line x1="18" y1="6" x2="6" y2="18"></line>
-        <line x1="6" y1="6" x2="18" y2="18"></line>
-      </svg>
-    </button>
-    <div class="modal-title">Paramètres</div>
-    <div class="modal-body">
-      <div class="settings-section">
-        <div class="settings-label">Apparence</div>
-
-        <div class="settings-row">
-          <div class="settings-info">
-            <div class="settings-title">Effet de particules</div>
-            <div class="settings-desc">Points lumineux en arrière-plan</div>
-          </div>
-          <div class="toggle-switch active" id="toggleParticles"></div>
-        </div>
-
-        <div class="settings-row">
-          <div class="settings-info">
-            <div class="settings-title">Animations réduites</div>
-            <div class="settings-desc">Désactive les transitions non essentielles</div>
-          </div>
-          <div class="toggle-switch" id="toggleMotion"></div>
-        </div>
-
-        <div class="settings-row">
-          <div class="settings-info">
-            <div class="settings-title">Effets 3D sur les cartes</div>
-            <div class="settings-desc">Les cartes s'inclinent au survol</div>
-          </div>
-          <div class="toggle-switch active" id="toggle3D"></div>
-        </div>
-      </div>
-
-      <div class="settings-section">
-        <div class="settings-label">Données</div>
-
-        <button class="settings-btn danger" id="clearCacheBtn">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <polyline points="3 6 5 6 21 6"></polyline>
-            <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
-          </svg>
-          <span>Vider le cache et les préférences</span>
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
-
 <div class="modal-overlay" id="aboutModal">
   <div class="modal">
     <button class="modal-close" data-close="aboutModal">
@@ -2158,13 +1909,6 @@
 <script>
 const EP = "/api/search";
 
-const prefs = {
-  particles: true,
-  motion: false,
-  threeD: true,
-  view: "list"
-};
-
 const FILTER_IDS = {
   ville: "f_ville",
   code_postal: "f_code_postal",
@@ -2178,17 +1922,6 @@ const FILTER_IDS = {
   genre: "f_genre",
   _confidence: "f_confidence"
 };
-
-function loadPrefs() {
-  try {
-    const saved = JSON.parse(localStorage.getItem("seekit-prefs") || "{}");
-    Object.assign(prefs, saved);
-  } catch {}
-}
-function savePrefs() {
-  try { localStorage.setItem("seekit-prefs", JSON.stringify(prefs)); } catch {}
-}
-loadPrefs();
 
 (function maintenanceBanner() {
   const banner = document.getElementById("maintenanceBanner");
@@ -2244,11 +1977,6 @@ loadPrefs();
   }
 
   function draw() {
-    if (!prefs.particles) {
-      ctx.clearRect(0, 0, w, h);
-      requestAnimationFrame(draw);
-      return;
-    }
     ctx.clearRect(0, 0, w, h);
     for (let i = 0; i < particles.length; i++) {
       const p = particles[i];
@@ -2286,53 +2014,6 @@ loadPrefs();
   window.addEventListener("resize", resize);
   requestAnimationFrame(draw);
 })();
-
-function applyMotionPreference() {
-  if (prefs.motion) {
-    document.body.classList.add("reduced-motion");
-    document.body.style.setProperty("--motion-multiplier", "0.01");
-  } else {
-    document.body.classList.remove("reduced-motion");
-    document.body.style.setProperty("--motion-multiplier", "1");
-  }
-}
-
-function setupToggle(id, prefKey, onChange) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (prefs[prefKey]) el.classList.add("active");
-  else el.classList.remove("active");
-
-  el.addEventListener("click", () => {
-    prefs[prefKey] = !prefs[prefKey];
-    el.classList.toggle("active", prefs[prefKey]);
-    savePrefs();
-    playSound("click");
-    if (onChange) onChange(prefs[prefKey]);
-  });
-}
-
-setupToggle("toggleParticles", "particles", (v) => {
-  toast(v ? "Particules activées" : "Particules désactivées", "success", 1500);
-});
-setupToggle("toggleMotion", "motion", (v) => {
-  applyMotionPreference();
-  toast(v ? "Animations réduites" : "Animations normales", "success", 1500);
-});
-setupToggle("toggle3D", "threeD");
-
-applyMotionPreference();
-
-document.getElementById("clearCacheBtn").addEventListener("click", () => {
-  try {
-    localStorage.removeItem("seekit-prefs");
-    localStorage.removeItem("seekit-sound");
-    localStorage.removeItem("seekit-cookies");
-    localStorage.removeItem("seekit-maint-dismissed");
-  } catch {}
-  toast("Cache vidé — rechargement…", "success", 1500);
-  setTimeout(() => location.reload(), 800);
-});
 
 (function cookieManager() {
   const banner = document.getElementById("cookieBanner");
@@ -2534,7 +2215,6 @@ document.addEventListener("click", () => { ensureAudio(); }, { once: true });
 
 function attachRipple(el) {
   el.addEventListener("click", (e) => {
-    if (prefs.motion) return;
     const rect = el.getBoundingClientRect();
     const size = Math.max(rect.width, rect.height);
     const x = (e.clientX ?? rect.left + rect.width / 2) - rect.left - size / 2;
@@ -2660,10 +2340,6 @@ function closeModal(id) {
   document.body.classList.remove("modal-open");
 }
 
-document.getElementById("settingsToggle").addEventListener("click", () => {
-  openModal("settingsModal");
-  playSound("click");
-});
 document.getElementById("aboutLink").addEventListener("click", () => {
   openModal("aboutModal");
   playSound("click");
@@ -2860,7 +2536,6 @@ function exportJSON(item, idx) {
 }
 
 function attach3DTilt(card) {
-  if (!prefs.threeD || prefs.motion) return;
   const MAX_ROT = 6;
   function handleMove(e) {
     const rect = card.getBoundingClientRect();
@@ -2966,7 +2641,7 @@ function renderCard(item, idx, dupCount = 0) {
               <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
-        </div>
+        </div >
       </div>`;
   }).join("");
 
@@ -2974,7 +2649,7 @@ function renderCard(item, idx, dupCount = 0) {
     ? `<div class="dup-info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          <path d="M5 15H4a2 2 0 10-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
         ${dupCount} entrées similaires regroupées
       </div>`
@@ -3035,34 +2710,6 @@ function renderSkeletons(n = 3) {
 }
 
 let currentItems = [];
-
-function sortItems(items, mode) {
-  const arr = [...items];
-  switch (mode) {
-    case "confidence":
-      return arr.sort((a, b) => {
-        const ca = Number(a._confidence ?? a.confidence ?? -1);
-        const cb = Number(b._confidence ?? b.confidence ?? -1);
-        return (isNaN(cb) ? -1 : cb) - (isNaN(ca) ? -1 : ca);
-      });
-    case "age":
-      return arr.sort((a, b) => {
-        const da = new Date(a.date_naissance || a.annee_naissance || "9999").getTime();
-        const db = new Date(b.date_naissance || b.annee_naissance || "9999").getTime();
-        return (isNaN(db) ? Infinity : db) - (isNaN(da) ? Infinity : da);
-      });
-    case "ville":
-      return arr.sort((a, b) => String(a.ville || "").localeCompare(String(b.ville || ""), "fr"));
-    case "alpha":
-      return arr.sort((a, b) => {
-        const na = `${a.prenom || ""} ${a.nom_famille || ""}`.trim();
-        const nb = `${b.prenom || ""} ${b.nom_famille || ""}`.trim();
-        return na.localeCompare(nb, "fr");
-      });
-    default:
-      return arr;
-  }
-}
 
 function bindCardActions(list) {
   list.querySelectorAll(".copy-btn").forEach(btn => {
@@ -3161,7 +2808,6 @@ document.getElementById("go").addEventListener("click", async () => {
 
     const list = document.createElement("div");
     list.id = "resultsList";
-    list.className = prefs.view === "grid" ? "grid-view" : "";
     list.innerHTML = flat.map(({ item, dupCount }, i) => renderCard(item, i, dupCount)).join("");
     out.appendChild(list);
 
@@ -3170,7 +2816,6 @@ document.getElementById("go").addEventListener("click", async () => {
     toast(`${items.length} résultat${items.length > 1 ? "s" : ""}`, "success", 2000);
     playSound("ding");
 
-    // ✅ Scroll automatique vers les résultats
     setTimeout(() => {
       const target = document.getElementById("out");
       if (target) {
