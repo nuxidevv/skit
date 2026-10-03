@@ -1901,7 +1901,7 @@
     </button>
     <div class="modal-title">À propos de Seek It</div>
     <div class="modal-body">
-      <p><strong>Seek It</strong> est un moteur de recherche de personnes qui interroge plus de 12 milliards d'enregistrements issus de bases de données publiques et de fuites documentées.</p>
+      <p><strong>Seek It</strong> est un moteur de recherche de personnes qui interroge plus de 14 milliards d'enregistrements issus de bases de données publiques et de fuites documentées.</p>
       <h3>Comment rechercher</h3>
       <p>La barre principale accepte :</p>
       <ul>
@@ -2075,12 +2075,10 @@ document.body.classList.add("has-maintenance");
 function animateCounter() {
   const el = document.getElementById("counter");
   if (!el) return;
-  const target = 12000000000;
+  const target = 14519652513;
   const duration = 2200;
   const start = performance.now();
   const format = n => {
-    if (n >= 1e9) return (n / 1e9).toFixed(1).replace(".0", "") + " Md";
-    if (n >= 1e6) return (n / 1e6).toFixed(0) + " M";
     return n.toLocaleString("fr-FR");
   };
   el.textContent = "0";
@@ -2089,7 +2087,7 @@ function animateCounter() {
     const eased = 1 - Math.pow(1 - t, 3);
     el.textContent = format(Math.floor(target * eased));
     if (t < 1) requestAnimationFrame(step);
-    else el.textContent = "12 Md+";
+    else el.textContent = "14 519 652 513";
   }
   requestAnimationFrame(step);
 }
