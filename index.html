@@ -1741,7 +1741,7 @@
 
     <div class="stats-row">
       <div class="stat">
-        <div class="stat-value green" id="counter">14 538 227 469</div>
+        <div class="stat-value green" id="counter">14 541 549 356</div>
         <div class="stat-label">Entrées indexées</div>
       </div>
       <div class="stat">
@@ -1943,36 +1943,19 @@ const FILTER_IDS = {
 
 document.body.classList.add("has-maintenance");
 
-/* ===== STATS SYNC AVEC BRIXHUB ===== */
-async function fetchBrixhubTotal() {
-  try {
-    const res = await fetch("/api/stats", { cache: "no-store" });
-    const data = await res.json();
-    if (data && typeof data.total === "number") return data.total;
-  } catch {}
-  return 14538227469;
-}
-
-async function animateCounter() {
+/* ===== COMPTEUR (valeur fixe) ===== */
+(function startCounter() {
   const el = document.getElementById("counter");
   if (!el) return;
 
-  const fallback = 14538227469;
-  const format = n => n.toLocaleString("fr-FR");
-
-  // Valeur de départ (fallback instantané)
-  el.textContent = format(fallback);
-
-  // Va chercher la vraie valeur
-  const target = await fetchBrixhubTotal();
-
-  // Si identique, on s'arrête
-  if (target === fallback) return;
-
-  // Sinon, animation 0 → target
+  const target = 14541549356;
   const duration = 2200;
   const start = performance.now();
+  const format = n => n.toLocaleString("fr-FR");
+
+  // Valeur finale déjà en HTML, on anime du 0 à target
   el.textContent = "0";
+
   function step(now) {
     const t = Math.min((now - start) / duration, 1);
     const eased = 1 - Math.pow(1 - t, 3);
@@ -1981,14 +1964,6 @@ async function animateCounter() {
     else el.textContent = format(target);
   }
   requestAnimationFrame(step);
-}
-
-(function startCounter() {
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", animateCounter);
-  } else {
-    animateCounter();
-  }
 })();
 
 /* ===== PARTICULES ===== */
@@ -2318,7 +2293,7 @@ const ORDER = [
   "adresse","code_postal","ville","departement","pays",
   "email","telephone","telephone_digits","phone","nom_utilisateur",
   "adresse_ip","iban","bic",
-  "_source_db","_sources","_confidence","genre","sexe"
+  "_source_db","_confidence","genre","sexe"
 ];
 
 const HIDDEN_KEYS = [
