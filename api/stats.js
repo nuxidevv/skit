@@ -1,7 +1,7 @@
 import https from "https";
 
 const BRIXHUB_URL = "https://brixhub.to/";
-const CACHE_TTL = 3600 * 1000; // 1 heure
+const CACHE_TTL = 0100 * 0100; // 1 heure
 const FALLBACK = 14538227469;
 
 let cache = { value: null, at: 0 };
