@@ -166,7 +166,7 @@
     z-index:2;
   }
   .brand-mark {
-    width:34px; height:34px; border-radius:9px;
+    width:26px; height:26px; border-radius:8px;
     background:linear-gradient(135deg, #ff6b1a 0%, #e0341a 100%);
     display:flex; align-items:center; justify-content:center;
     position:relative; overflow:hidden;
@@ -191,12 +191,12 @@
   .brand-mark img {
     width:100%; height:100%;
     object-fit:cover;
-    border-radius:9px;
+    border-radius:8px;
     position:relative;
     z-index:1;
     filter:drop-shadow(0 0 8px rgba(255,107,26,0.8));
   }
-  .brand-mark svg { width:18px; height:18px; color:#fff; position:relative; z-index:1; }
+  .brand-mark svg { width:14px; height:14px; color:#fff; position:relative; z-index:1; }
 
   .maintenance-banner {
     position:fixed;
@@ -747,62 +747,6 @@
     background:linear-gradient(135deg, rgba(60,28,18,0.75) 0%, rgba(30,15,10,0.85) 100%);
   }
   .filter-btn svg { width:12px; height:12px; }
-
-  .stats-row {
-    display:grid; grid-template-columns:repeat(3, 1fr);
-    gap:12px; margin-top:40px;
-    max-width:640px; margin-left:auto; margin-right:auto;
-    animation:fadeUp 0.8s ease-out 0.5s backwards;
-  }
-  .stat {
-    background:linear-gradient(135deg, rgba(45,20,12,0.6) 0%, rgba(20,10,8,0.75) 100%);
-    border:1px solid rgba(255,140,60,0.2);
-    border-radius:16px; padding:20px 12px;
-    text-align:center;
-    transition:all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
-    backdrop-filter:blur(48px) saturate(240%) brightness(1.08);
-    -webkit-backdrop-filter:blur(48px) saturate(240%) brightness(1.08);
-    box-shadow:
-      0 12px 40px rgba(0,0,0,0.6),
-      0 0 0 0.5px rgba(255,184,77,0.08) inset,
-      0 1px 0 0 rgba(255,200,150,0.2) inset,
-      0 -1px 0 0 rgba(0,0,0,0.25) inset;
-    position:relative;
-    overflow:hidden;
-  }
-  .stat::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:55%;
-    background:linear-gradient(180deg, rgba(255,184,77,0.15) 0%, transparent 100%);
-    border-radius:16px 16px 0 0;
-    pointer-events:none;
-  }
-  .stat:hover {
-    border-color:rgba(255,140,60,0.45);
-    transform:translateY(-4px);
-    box-shadow:
-      0 24px 60px rgba(0,0,0,0.6),
-      0 0 60px var(--glow),
-      0 0 0 0.5px rgba(255,184,77,0.15) inset,
-      0 1px 0 0 rgba(255,200,150,0.3) inset;
-  }
-  .stat-value {
-    font-size:1.15rem; font-weight:800;
-    letter-spacing:-0.02em;
-    color:var(--text); margin-bottom:4px;
-    font-family:'JetBrains Mono', monospace;
-    position:relative;
-    text-shadow:0 0 20px rgba(255,107,26,0.4);
-  }
-  .stat-value.green { color:var(--orange-bright); text-shadow:0 0 24px rgba(255,107,26,0.8); }
-  .stat-label {
-    font-size:0.65rem; color:var(--text-dim);
-    letter-spacing:0.05em; text-transform:uppercase;
-    font-weight:500;
-    position:relative;
-  }
 
   section.features { padding:60px 24px; }
   .section-tag {
@@ -1408,14 +1352,14 @@
     content:'';
     position:absolute;
     top:0; left:0; right:0;
-   0 height:40%;
-    background:linear-gradient(180);
-   deg, rgba(255, opacity184,77,0.12) :0%, transparent 100%);
+    height:40%;
+    background:linear-gradient(180deg, rgba(255,184,77,0.12) 0%, transparent 100%);
     border-radius:18px 18px 0 0;
     pointer-events:none;
   }
   .cookie-banner.visible {
-    transform:translateX(-50%) translateY(1; pointer-events:auto;
+    transform:translateX(-50%) translateY(0);
+    opacity:1; pointer-events:auto;
   }
   .cookie-content {
     display:flex; align-items:flex-start; gap:12px;
@@ -1494,10 +1438,9 @@
   @media (max-width:640px) {
     body { padding-top:70px; }
     section.hero { padding:20px 20px 40px; }
-    .stats-row { grid-template-columns:1fr; }
     nav.topbar { top:10px; padding:8px 14px; }
-    .brand-mark { width:28px; height:28px; }
-    .brand-mark svg { width:14px; height:14px; }
+    .brand-mark { width:24px; height:24px; }
+    .brand-mark svg { width:13px; height:13px; }
     .brand { font-size:0.95rem; }
     .maintenance-banner {
       top:60px;
@@ -1516,7 +1459,7 @@
     .filters-grid { grid-template-columns:1fr; }
   }
 </style>
- </head>
+</head>
 <body>
 
 <!-- NAVBAR -->
@@ -1655,10 +1598,6 @@
                 <option value="autre">Autre</option>
               </select>
             </div>
-            <div class="filter-group full">
-              <label class="filter-label">Fiabilité minimale (%)</label>
-              <input class="filter-input" id="f_confidence" placeholder="70" autocomplete="off" inputmode="numeric">
-            </div>
           </div>
 
           <div class="filters-actions">
@@ -1672,21 +1611,6 @@
           </div>
 
         </div>
-      </div>
-    </div>
-
-    <div class="stats-row">
-      <div class="stat">
-        <div class="stat-value green" id="counter">14 541 549 356</div>
-        <div class="stat-label">Entrées indexées</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">120+</div>
-        <div class="stat-label">Sources actives</div>
-      </div>
-      <div class="stat">
-        <div class="stat-value">&lt; 3s</div>
-        <div class="stat-label">Temps de réponse</div>
       </div>
     </div>
   </section>
@@ -1824,7 +1748,7 @@
         <li><strong>Email</strong> : adresse email complète</li>
         <li><strong>Téléphone</strong> : numéro (avec ou sans indicatif)</li>
       </ul>
-      <p>Utilise le bouton <strong>Filtres avancés</strong> pour affiner par ville, code postal, département, pays, adresse, adresse IP, IBAN, BIC, année de naissance, genre ou fiabilité minimale.</p>
+      <p>Utilise le bouton <strong>Filtres avancés</strong> pour affiner par ville, code postal, département, pays, adresse, adresse IP, IBAN, BIC, année de naissance, genre.</p>
       <h3>Confidentialité</h3>
       <p>Aucune donnée n'est stockée sur nos serveurs. Les recherches sont anonymes et ne sont pas tracées.</p>
       <p style="margin-top:16px;font-size:0.75rem;color:var(--text-dimmer)">Dernière modification : 18 Sept. 2026</p>
@@ -1873,33 +1797,10 @@ const FILTER_IDS = {
   iban: "f_iban",
   bic: "f_bic",
   annee_naissance: "f_annee_naissance",
-  genre: "f_genre",
-  _confidence: "f_confidence"
+  genre: "f_genre"
 };
 
 document.body.classList.add("has-maintenance");
-
-/* ===== COMPTEUR (valeur fixe) ===== */
-(function startCounter() {
-  const el = document.getElementById("counter");
-  if (!el) return;
-
-  const target = 14541549356;
-  const duration = 2200;
-  const start = performance.now();
-  const format = n => n.toLocaleString("fr-FR");
-
-  el.textContent = "0";
-
-  function step(now) {
-    const t = Math.min((now - start) / duration, 1);
-    const eased = 1 - Math.pow(1 - t, 3);
-    el.textContent = format(Math.floor(target * eased));
-    if (t < 1) requestAnimationFrame(step);
-    else el.textContent = format(target);
-  }
-  requestAnimationFrame(step);
-})();
 
 /* ===== PARTICULES ===== */
 (function particlesEffect() {
@@ -2209,7 +2110,7 @@ function validate(t) {
 }
 
 const LABELS = {
-  _source_db: "Source", _confidence: "Fiabilité", adresse: "Adresse",
+  _source_db: "Source", adresse: "Adresse",
   annee_naissance: "Année naissance", code_postal: "Code postal",
   date_naissance: "Date de naissance", departement: "Département",
   email: "Email", lieu_naissance: "Lieu de naissance",
@@ -2228,7 +2129,7 @@ const ORDER = [
   "adresse","code_postal","ville","departement","pays",
   "email","telephone","telephone_digits","phone","nom_utilisateur",
   "adresse_ip","iban","bic",
-  "_source_db","_confidence","genre","sexe"
+  "_source_db","genre","sexe"
 ];
 
 const HIDDEN_KEYS = [
@@ -2379,11 +2280,6 @@ function renderCard(item, idx, dupCount = 0) {
   const sub = item.email && (prenom || nom) ? item.email : (item.telephone && (prenom || nom) ? item.telephone : "");
   const initials = ((prenom[0] || "") + (nom[0] || "")).toUpperCase() || (item.email ? item.email[0].toUpperCase() : "?");
 
-  const conf = item._confidence ?? item.confidence ?? null;
-  const scoreHtml = conf != null
-    ? `<div class="score ${Number(conf) < 40 ? 'low' : (Number(conf) < 70 ? 'mid' : '')}">${escapeHtml(conf)}%</div>`
-    : "";
-
   const dupBadge = dupCount > 1
     ? `<span class="dup-badge" title="${dupCount} entrées similaires">${dupCount}</span>`
     : "";
@@ -2421,7 +2317,7 @@ function renderCard(item, idx, dupCount = 0) {
           <button class="copy-btn" data-copy="${escapeHtml(safeVal)}" aria-label="Copier">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 "></1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
         </div>
@@ -2432,7 +2328,7 @@ function renderCard(item, idx, dupCount = 0) {
     ? `<div class="dup-info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1path>
         </svg>
         ${dupCount} entrées similaires regroupées
       </div>`
@@ -2452,7 +2348,6 @@ function renderCard(item, idx, dupCount = 0) {
           </div>
         </div>
         <div class="card-actions">
-          ${scoreHtml}
           <button class="icon-btn export-btn" data-idx="${idx}" title="Exporter JSON">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
