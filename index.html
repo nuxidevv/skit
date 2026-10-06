@@ -29,6 +29,8 @@
     --red-dim:rgba(224,52,26,0.15);
     --amber:#ffb84d;
     --amber-dim:rgba(255,184,77,0.15);
+    --blue-link:#4da3ff;
+    --blue-link-hover:#7bc0ff;
     --glow:rgba(255,107,26,0.35);
     --input-bg:rgba(20,10,8,0.6);
     --row-border:rgba(255,140,60,0.08);
@@ -897,6 +899,20 @@
     font-weight:700;
     text-shadow:0 0 12px rgba(255,107,26,0.8);
   }
+  .credits a.credit-link {
+    color:var(--blue-link);
+    font-weight:700;
+    text-decoration:underline;
+    text-decoration-color:rgba(77,163,255,0.5);
+    text-underline-offset:2px;
+    transition:all 0.2s;
+    cursor:pointer;
+  }
+  .credits a.credit-link:hover {
+    color:var(--blue-link-hover);
+    text-decoration-color:var(--blue-link-hover);
+    text-shadow:0 0 12px rgba(77,163,255,0.6);
+  }
   .watermark {
     font-size:0.65rem; color:var(--text-dimmer);
     letter-spacing:0.05em;
@@ -1495,7 +1511,7 @@
 <main>
   <section class="hero">
     <div class="badges-row">
-      <div class="badge">🎃 En ligne</div>
+      <div class="badge">🎃 Top #1 Searcher FR</div>
     </div>
 
     <h1 class="hero-title">
@@ -1692,7 +1708,7 @@
       <a id="aboutLink2">À propos</a>
       <a id="legalLink">Mentions légales</a>
     </div>
-    <div class="credits">Fait avec ❤️ par <strong>Nuhi</strong> &amp; <strong>Silentlinux</strong></div>
+    <div class="credits">Fait avec 🎃 par <a class="credit-link" href="https://www.tiktok.com/@l.n_005?_r=1&_t=ZN-9AKjxQPqs1G" target="_blank" rel="noopener noreferrer">Nuhi</a> &amp; <a class="credit-link" href="https://www.tiktok.com/@silentlinux?_r=1&_t=ZN-9AKjymKKIyc" target="_blank" rel="noopener noreferrer">Silentlinux</a></div>
     <div class="watermark">Seek It © 2026 — Tous droits réservés</div>
   </footer>
 </main>
@@ -1776,7 +1792,7 @@
       <p>Seek It ne peut être tenu responsable de l'exactitude des données affichées. L'utilisateur doit vérifier toute information avant usage.</p>
       <h3>5. RGPD et données personnelles</h3>
       <p>Aucune recherche n'est stockée sur nos serveurs. Aucun cookie de tracking n'est utilisé. Le stockage local (localStorage) est utilisé uniquement pour vos préférences d'affichage.</p>
-      <p>Conformément au RGPD (UE 2016/679), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour toute demande : <a href="https://discord.gg/GT2C3f6cgQ" target="_blank">Discord</a></p>
+      <p>Conformément au RGPD (UE 2016/679), vous disposez d'un droit d'accès, de rectification et de suppression de vos données. Pour toute demande : <a href="https://discord.gg/GT2C3f6cgQ" target="_blank" rel="noopener noreferrer">Discord</a></p>
       <h3>6. Cookies</h3>
       <p>Aucun cookie tiers. Aucun pixel de tracking. Aucun outil d'analyse externe.</p>
       <p style="margin-top:16px;font-size:0.75rem;color:var(--text-dimmer)">Dernière modification : 18 sept. 2026</p>
@@ -2317,7 +2333,7 @@ function renderCard(item, idx, dupCount = 0) {
           <button class="copy-btn" data-copy="${escapeHtml(safeVal)}" aria-label="Copier">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 "></1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
             </svg>
           </button>
         </div>
@@ -2328,7 +2344,7 @@ function renderCard(item, idx, dupCount = 0) {
     ? `<div class="dup-info">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1path>
+          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
         </svg>
         ${dupCount} entrées similaires regroupées
       </div>`
@@ -2578,4 +2594,4 @@ document.querySelectorAll(".icon-btn").forEach(attachRipple);
 })();
 </script>
 </body>
-</html>
+</html> 
