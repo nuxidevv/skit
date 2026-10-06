@@ -53,6 +53,7 @@
     position:relative;
   }
   body.modal-open { overflow:hidden; }
+  body.locked { overflow:hidden; padding-top:0; }
 
   body::after {
     content:''; position:fixed; inset:0;
@@ -95,6 +96,277 @@
     0%,100% { opacity:0.8; transform:translateX(-50%) scale(1); }
     50% { opacity:1; transform:translateX(-50%) scale(1.08); }
   }
+
+  /* ===== ÉCRAN MAINTENANCE PLEIN ===== */
+  .maintenance-screen {
+    position:fixed; inset:0;
+    z-index:9999;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:32px 24px;
+    background:rgba(10,5,5,0.92);
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    animation:screenFadeIn 0.5s ease-out;
+  }
+  .maintenance-screen.hidden {
+    animation:screenFadeOut 0.5s ease-out forwards;
+    pointer-events:none;
+  }
+  @keyframes screenFadeIn {
+    from { opacity:0; }
+    to { opacity:1; }
+  }
+  @keyframes screenFadeOut {
+    from { opacity:1; }
+    to { opacity:0; }
+  }
+
+  .maintenance-card {
+    position:relative;
+    max-width:520px;
+    width:100%;
+    padding:44px 36px;
+    border-radius:26px;
+    background:linear-gradient(135deg, rgba(45,20,12,0.85) 0%, rgba(20,10,8,0.95) 100%);
+    border:1px solid rgba(255,140,60,0.35);
+    backdrop-filter:blur(48px) saturate(240%) brightness(1.1);
+    -webkit-backdrop-filter:blur(48px) saturate(240%) brightness(1.1);
+    box-shadow:
+      0 40px 100px rgba(0,0,0,0.8),
+      0 0 0 0.5px rgba(255,184,77,0.15) inset,
+      0 1px 0 0 rgba(255,200,150,0.25) inset,
+      0 -1px 0 0 rgba(0,0,0,0.3) inset,
+      0 0 120px rgba(255,107,26,0.3);
+    text-align:center;
+    overflow:hidden;
+    animation:cardRise 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .maintenance-card::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:45%;
+    background:linear-gradient(180deg, rgba(255,184,77,0.15) 0%, transparent 100%);
+    border-radius:26px 26px 0 0;
+    pointer-events:none;
+  }
+  @keyframes cardRise {
+    from { opacity:0; transform:translateY(30px) scale(0.95); }
+    to { opacity:1; transform:translateY(0) scale(1); }
+  }
+
+  .maintenance-card > * { position:relative; z-index:2; }
+
+  .maintenance-logo {
+    width:84px;
+    height:84px;
+    border-radius:22px;
+    background:linear-gradient(135deg, #ff6b1a 0%, #e0341a 100%);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    margin:0 auto 26px;
+    position:relative;
+    overflow:hidden;
+    box-shadow:
+      0 12px 40px rgba(255,107,26,0.6),
+      0 0 0 1px rgba(255,200,150,0.3) inset,
+      0 1px 0 0 rgba(255,255,255,0.4) inset;
+    animation:logoPulse 3s ease-in-out infinite;
+  }
+  @keyframes logoPulse {
+    0%,100% { box-shadow:0 12px 40px rgba(255,107,26,0.6), 0 0 0 1px rgba(255,200,150,0.3) inset, 0 1px 0 0 rgba(255,255,255,0.4) inset; }
+    50% { box-shadow:0 12px 60px rgba(255,107,26,0.9), 0 0 0 1px rgba(255,200,150,0.4) inset, 0 1px 0 0 rgba(255,255,255,0.5) inset; }
+  }
+  .maintenance-logo::after {
+    content:'';
+    position:absolute;
+    inset:0;
+    background:linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.5) 50%, transparent 60%);
+    animation:shimmer 3s ease-in-out infinite;
+  }
+  @keyframes shimmer {
+    0% { transform:translateX(-100%); }
+    100% { transform:translateX(100%); }
+  }
+  .maintenance-logo img {
+    width:100%; height:100%;
+    object-fit:cover;
+    border-radius:22px;
+    position:relative;
+    z-index:1;
+    filter:drop-shadow(0 0 12px rgba(255,107,26,0.9));
+  }
+
+  .maintenance-title {
+    font-size:clamp(1.5rem, 5vw, 2rem);
+    font-weight:800;
+    letter-spacing:-0.035em;
+    line-height:1.15;
+    color:var(--text);
+    margin-bottom:14px;
+    text-shadow:0 0 30px rgba(255,107,26,0.3);
+  }
+  .maintenance-title .accent {
+    background:linear-gradient(135deg, var(--orange) 0%, var(--red) 100%);
+    -webkit-background-clip:text;
+    background-clip:text;
+    -webkit-text-fill-color:transparent;
+    color:transparent;
+    filter:drop-shadow(0 0 20px rgba(255,107,26,0.5));
+  }
+
+  .maintenance-desc {
+    font-size:0.9rem;
+    color:var(--text-dim);
+    line-height:1.65;
+    margin-bottom:26px;
+    max-width:400px;
+    margin-left:auto;
+    margin-right:auto;
+  }
+
+  /* Case à cocher */
+  .maintenance-checkbox {
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:16px 18px;
+    border-radius:14px;
+    background:linear-gradient(135deg, rgba(45,20,12,0.7) 0%, rgba(20,10,8,0.8) 100%);
+    border:1px solid rgba(255,140,60,0.3);
+    cursor:pointer;
+    text-align:left;
+    margin-bottom:22px;
+    transition:all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    user-select:none;
+    position:relative;
+    backdrop-filter:blur(30px) saturate(200%);
+    -webkit-backdrop-filter:blur(30px) saturate(200%);
+    box-shadow:
+      0 4px 16px rgba(0,0,0,0.4),
+      0 1px 0 0 rgba(255,200,150,0.15) inset;
+  }
+  .maintenance-checkbox:hover {
+    border-color:rgba(255,140,60,0.55);
+    background:linear-gradient(135deg, rgba(60,28,18,0.75) 0%, rgba(30,15,10,0.85) 100%);
+  }
+  .maintenance-checkbox.checked {
+    border-color:rgba(255,140,60,0.7);
+    box-shadow:
+      0 4px 24px rgba(255,107,26,0.35),
+      0 0 0 0.5px rgba(255,184,77,0.2) inset,
+      0 1px 0 0 rgba(255,200,150,0.25) inset;
+  }
+
+  .checkbox-box {
+    width:22px;
+    height:22px;
+    border-radius:6px;
+    border:2px solid rgba(255,140,60,0.5);
+    background:rgba(20,10,8,0.6);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    margin-top:1px;
+    transition:all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    position:relative;
+  }
+  .checkbox-box svg {
+    width:14px; height:14px;
+    color:#fff;
+    opacity:0;
+    transform:scale(0.4);
+    transition:all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    filter:drop-shadow(0 0 4px rgba(255,255,255,0.6));
+  }
+  .maintenance-checkbox.checked .checkbox-box {
+    background:linear-gradient(135deg, #ff6b1a 0%, #e0341a 100%);
+    border-color:#ff6b1a;
+    box-shadow:0 0 16px rgba(255,107,26,0.6);
+  }
+  .maintenance-checkbox.checked .checkbox-box svg {
+    opacity:1;
+    transform:scale(1);
+  }
+
+  .checkbox-text {
+    flex:1;
+    font-size:0.82rem;
+    color:var(--text-dim);
+    line-height:1.5;
+  }
+  .checkbox-text strong {
+    color:var(--text);
+    font-weight:600;
+  }
+
+  /* Bouton accéder */
+  .maintenance-btn {
+    width:100%;
+    padding:18px;
+    border-radius:16px;
+    font-size:0.92rem;
+    font-weight:700;
+    font-family:inherit;
+    letter-spacing:0.01em;
+    cursor:pointer;
+    position:relative;
+    overflow:hidden;
+    border:1px solid rgba(255,160,80,0.6);
+    color:#fff;
+    background:linear-gradient(180deg,
+      rgba(255,120,40,0.95) 0%,
+      rgba(255,90,20,0.92) 50%,
+      rgba(224,52,26,0.9) 100%);
+    backdrop-filter:blur(40px) saturate(220%);
+    -webkit-backdrop-filter:blur(40px) saturate(220%);
+    box-shadow:
+      0 12px 40px rgba(255,107,26,0.5),
+      0 0 0 0.5px rgba(255,255,255,0.2) inset,
+      0 1px 0 0 rgba(255,255,255,0.5) inset,
+      0 -1px 0 0 rgba(0,0,0,0.2) inset,
+      0 0 60px rgba(255,107,26,0.4);
+    text-shadow:0 1px 2px rgba(0,0,0,0.3);
+    transition:all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity:0.4;
+    cursor:not-allowed;
+    pointer-events:none;
+  }
+  .maintenance-btn::before {
+    content:'';
+    position:absolute;
+    top:0; left:0; right:0;
+    height:55%;
+    background:linear-gradient(180deg,
+      rgba(255,255,255,0.45) 0%,
+      rgba(255,255,255,0.1) 60%,
+      transparent 100%);
+    border-radius:16px 16px 0 0;
+    pointer-events:none;
+  }
+  .maintenance-btn.active {
+    opacity:1;
+    cursor:pointer;
+    pointer-events:auto;
+  }
+  .maintenance-btn.active:hover {
+    transform:translateY(-3px) scale(1.015);
+    box-shadow:
+      0 20px 60px rgba(255,107,26,0.65),
+      0 0 0 0.5px rgba(255,255,255,0.3) inset,
+      0 1px 0 0 rgba(255,255,255,0.6) inset,
+      0 -1px 0 0 rgba(0,0,0,0.2) inset,
+      0 0 80px rgba(255,107,26,0.6);
+  }
+  .maintenance-btn.active:active {
+    transform:translateY(0) scale(0.99);
+  }
+
+  /* ===== FIN ÉCRAN MAINTENANCE ===== */
 
   .progress-bar {
     position:fixed; top:0; left:0; height:2px; width:0%;
@@ -186,10 +458,6 @@
     pointer-events:none;
     z-index:2;
   }
-  @keyframes shimmer {
-    0% { transform:translateX(-100%); }
-    100% { transform:translateX(100%); }
-  }
   .brand-mark img {
     width:100%; height:100%;
     object-fit:cover;
@@ -199,92 +467,6 @@
     filter:drop-shadow(0 0 8px rgba(255,107,26,0.8));
   }
   .brand-mark svg { width:14px; height:14px; color:#fff; position:relative; z-index:1; }
-
-  .maintenance-banner {
-    position:fixed;
-    top:72px;
-    left:50%;
-    transform:translateX(-50%);
-    z-index:55;
-    max-width:calc(1400px - 32px);
-    width:calc(100% - 32px);
-    padding:10px 16px;
-    border-radius:18px;
-    background:linear-gradient(135deg,
-      rgba(255,107,26,0.2) 0%,
-      rgba(224,52,26,0.22) 50%,
-      rgba(255,107,26,0.2) 100%);
-    border:1px solid rgba(255,140,60,0.55);
-    backdrop-filter:blur(48px) saturate(240%) brightness(1.1);
-    -webkit-backdrop-filter:blur(48px) saturate(240%) brightness(1.1);
-    box-shadow:
-      0 12px 48px rgba(0,0,0,0.5),
-      0 0 0 0.5px rgba(255,200,150,0.1) inset,
-      0 1px 0 0 rgba(255,200,150,0.25) inset,
-      0 -1px 0 0 rgba(0,0,0,0.2) inset,
-      0 4px 32px rgba(255,107,26,0.3);
-    animation:maintSlide 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-    overflow:hidden;
-  }
-  .maintenance-banner::before {
-    content:'';
-    position:absolute;
-    top:0; left:0; right:0;
-    height:55%;
-    background:linear-gradient(180deg,
-      rgba(255,200,150,0.15) 0%,
-      transparent 100%);
-    pointer-events:none;
-  }
-  @keyframes maintSlide {
-    from { transform:translateX(-50%) translateY(-140%); opacity:0; }
-    to { transform:translateX(-50%) translateY(0); opacity:1; }
-  }
-  .maintenance-content {
-    max-width:1400px;
-    margin:0 auto;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:10px;
-    text-align:center;
-    position:relative;
-    z-index:2;
-  }
-  .maintenance-icon {
-    width:24px; height:24px;
-    border-radius:8px;
-    background:linear-gradient(135deg, rgba(255,107,26,0.4) 0%, rgba(224,52,26,0.3) 100%);
-    border:1px solid rgba(255,140,60,0.65);
-    color:var(--amber);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-shrink:0;
-    box-shadow:
-      0 4px 12px rgba(255,107,26,0.4),
-      0 1px 0 0 rgba(255,255,255,0.3) inset;
-    animation:maintPulse 2.5s ease-in-out infinite;
-  }
-  .maintenance-icon svg { width:13px; height:13px; }
-  @keyframes maintPulse {
-    0%,100% { box-shadow:0 4px 12px rgba(255,107,26,0.4), 0 0 0 0 rgba(255,107,26,0.5), 0 1px 0 0 rgba(255,255,255,0.3) inset; }
-    50% { box-shadow:0 4px 12px rgba(255,107,26,0.4), 0 0 0 8px rgba(255,107,26,0), 0 1px 0 0 rgba(255,255,255,0.3) inset; }
-  }
-  .maintenance-text {
-    font-size:0.75rem;
-    line-height:1.5;
-    color:var(--text-dim);
-    letter-spacing:0.01em;
-  }
-  .maintenance-text strong {
-    color:var(--orange-bright);
-    font-weight:700;
-    margin-right:4px;
-    text-shadow:0 0 12px rgba(255,107,26,0.5);
-  }
-
-  body.has-maintenance { padding-top:150px; }
 
   main { position:relative; z-index:1; }
   .container { max-width:900px; margin:0 auto; padding:0 24px; }
@@ -894,11 +1076,6 @@
     font-size:0.72rem; color:var(--text-dim);
     letter-spacing:0.02em; margin-bottom:8px;
   }
-  .credits strong {
-    color:var(--orange-bright);
-    font-weight:700;
-    text-shadow:0 0 12px rgba(255,107,26,0.8);
-  }
   .credits a.credit-link {
     color:var(--blue-link);
     font-weight:700;
@@ -1458,25 +1635,55 @@
     .brand-mark { width:24px; height:24px; }
     .brand-mark svg { width:13px; height:13px; }
     .brand { font-size:0.95rem; }
-    .maintenance-banner {
-      top:60px;
-      padding:9px 12px;
-      border-radius:14px;
-    }
-    .maintenance-text { font-size:0.68rem; line-height:1.4; }
-    .maintenance-icon { width:22px; height:22px; }
-    .maintenance-icon svg { width:11px; height:11px; }
-    body.has-maintenance { padding-top:130px; }
     #out { scroll-margin-top:140px; }
     .row { flex-direction:column; gap:2px; }
     .row-label { min-width:0; }
     .copy-btn { opacity:1; }
     .cookie-banner { bottom:12px; padding:16px; }
     .filters-grid { grid-template-columns:1fr; }
+    .maintenance-card { padding:32px 24px; border-radius:22px; }
+    .maintenance-logo { width:68px; height:68px; border-radius:18px; }
+    .maintenance-title { font-size:1.4rem; }
+    .maintenance-desc { font-size:0.82rem; }
+    .maintenance-checkbox { padding:14px 16px; }
+    .checkbox-text { font-size:0.78rem; }
+    .maintenance-btn { padding:16px; font-size:0.88rem; }
   }
 </style>
 </head>
-<body>
+<body class="locked">
+
+<!-- ÉCRAN MAINTENANCE PLEIN (bloque tout au chargement) -->
+<div class="maintenance-screen" id="maintenanceScreen">
+  <div class="maintenance-card">
+    <div class="maintenance-logo">
+      <img src="/56D2146B-8565-4FD8-94CF-4D13AE4CBF0C.png" alt="Seek It">
+    </div>
+
+    <h1 class="maintenance-title">
+      Site en <span class="accent">maintenance</span>
+    </h1>
+
+    <p class="maintenance-desc">
+      Certaines fonctionnalités et recherches peuvent être instables ou renvoyer des résultats incomplets. Nous travaillons à rétablir un service optimal.
+    </p>
+
+    <div class="maintenance-checkbox" id="maintenanceCheckbox">
+      <div class="checkbox-box">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <div class="checkbox-text">
+        <strong>J'ai compris</strong> que le site est en maintenance et je souhaite continuer malgré tout.
+      </div>
+    </div>
+
+    <button class="maintenance-btn" id="maintenanceBtn" disabled>
+      Accéder au site
+    </button>
+  </div>
+</div>
 
 <!-- NAVBAR -->
 <nav class="topbar">
@@ -1487,22 +1694,6 @@
     <span>Seek It</span>
   </div>
 </nav>
-
-<!-- BANNIÈRE MAINTENANCE -->
-<div class="maintenance-banner" id="maintenanceBanner">
-  <div class="maintenance-content">
-    <div class="maintenance-icon">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
-        <line x1="12" y1="9" x2="12" y2="13"></line>
-        <line x1="12" y1="17" x2="12.01" y2="17"></line>
-      </svg>
-    </div>
-    <div class="maintenance-text">
-      <strong>Maintenance en cours</strong> — Certaines fonctionnalités et recherches peuvent être instables ou renvoyer des résultats incomplets. Nous travaillons à rétablir un service optimal.
-    </div>
-  </div>
-</div>
 
 <canvas id="particles"></canvas>
 
@@ -1801,6 +1992,46 @@
 </div>
 
 <script>
+/* ===== ÉCRAN MAINTENANCE ===== */
+(function maintenanceScreen() {
+  const screen = document.getElementById("maintenanceScreen");
+  const checkbox = document.getElementById("maintenanceCheckbox");
+  const btn = document.getElementById("maintenanceBtn");
+
+  if (!screen || !checkbox || !btn) return;
+
+  // Vérifie si l'utilisateur a déjà accepté
+  let accepted = false;
+  try { accepted = localStorage.getItem("seekit-maint-accepted") === "1"; } catch {}
+
+  if (accepted) {
+    // Déjà accepté → on retire l'écran immédiatement
+    screen.classList.add("hidden");
+    document.body.classList.remove("locked");
+    setTimeout(() => { if (screen.parentNode) screen.remove(); }, 500);
+    return;
+  }
+
+  // Clic sur la case à cocher
+  checkbox.addEventListener("click", () => {
+    const isChecked = checkbox.classList.toggle("checked");
+    btn.classList.toggle("active", isChecked);
+    btn.disabled = !isChecked;
+  });
+
+  // Clic sur le bouton "Accéder au site"
+  btn.addEventListener("click", () => {
+    if (!checkbox.classList.contains("checked")) return;
+
+    try { localStorage.setItem("seekit-maint-accepted", "1"); } catch {}
+
+    screen.classList.add("hidden");
+    document.body.classList.remove("locked");
+    setTimeout(() => { if (screen.parentNode) screen.remove(); }, 500);
+  });
+})();
+
+/* ===== RESTE DU SCRIPT ===== */
 const EP = "/api/search";
 
 const FILTER_IDS = {
@@ -1815,8 +2046,6 @@ const FILTER_IDS = {
   annee_naissance: "f_annee_naissance",
   genre: "f_genre"
 };
-
-document.body.classList.add("has-maintenance");
 
 /* ===== PARTICULES ===== */
 (function particlesEffect() {
@@ -1900,7 +2129,7 @@ document.body.classList.add("has-maintenance");
   try { choice = localStorage.getItem("seekit-cookies"); } catch {}
 
   if (!choice) {
-    setTimeout(() => banner.classList.add("visible"), 2600);
+    setTimeout(() => banner.classList.add("visible"), 3000);
   }
 
   function dismiss(value) {
@@ -2594,4 +2823,4 @@ document.querySelectorAll(".icon-btn").forEach(attachRipple);
 })();
 </script>
 </body>
-</html> 
+</html>
