@@ -228,7 +228,6 @@
     margin-right:auto;
   }
 
-  /* Case à cocher */
   .maintenance-checkbox {
     display:flex;
     align-items:flex-start;
@@ -304,7 +303,6 @@
     font-weight:600;
   }
 
-  /* Bouton accéder */
   .maintenance-btn {
     width:100%;
     padding:18px;
@@ -365,8 +363,6 @@
   .maintenance-btn.active:active {
     transform:translateY(0) scale(0.99);
   }
-
-  /* ===== FIN ÉCRAN MAINTENANCE ===== */
 
   .progress-bar {
     position:fixed; top:0; left:0; height:2px; width:0%;
@@ -1243,6 +1239,42 @@
     margin-top:4px;
     font-family:'JetBrains Mono', monospace;
   }
+
+  /* ===== BADGE PROVENANCE ===== */
+  .card-source {
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    margin-top:8px;
+    padding:4px 10px;
+    border-radius:8px;
+    background:linear-gradient(135deg, rgba(255,107,26,0.25) 0%, rgba(224,52,26,0.15) 100%);
+    border:1px solid rgba(255,140,60,0.5);
+    font-family:'JetBrains Mono', monospace;
+    font-size:0.65rem;
+    font-weight:700;
+    color:var(--orange-bright);
+    letter-spacing:0.02em;
+    box-shadow:
+      0 4px 12px rgba(255,107,26,0.25),
+      0 1px 0 0 rgba(255,255,255,0.15) inset;
+    transition:all 0.2s;
+    text-transform:uppercase;
+  }
+  .card-source:hover {
+    background:linear-gradient(135deg, rgba(255,107,26,0.35) 0%, rgba(224,52,26,0.25) 100%);
+    border-color:rgba(255,140,60,0.7);
+    box-shadow:
+      0 6px 20px rgba(255,107,26,0.4),
+      0 1px 0 0 rgba(255,255,255,0.25) inset;
+  }
+  .card-source svg {
+    width:12px;
+    height:12px;
+    flex-shrink:0;
+    filter:drop-shadow(0 0 4px rgba(255,107,26,0.6));
+  }
+
   .card-actions { display:flex; gap:6px; flex-shrink:0; }
 
   .icon-btn {
@@ -1650,10 +1682,10 @@
     .maintenance-btn { padding:16px; font-size:0.88rem; }
   }
 </style>
-</head>
+ </head>
 <body class="locked">
 
-<!-- ÉCRAN MAINTENANCE PLEIN (bloque tout au chargement) -->
+<!-- ÉCRAN MAINTENANCE PLEIN -->
 <div class="maintenance-screen" id="maintenanceScreen">
   <div class="maintenance-card">
     <div class="maintenance-logo">
@@ -2000,31 +2032,25 @@
 
   if (!screen || !checkbox || !btn) return;
 
-  // Vérifie si l'utilisateur a déjà accepté
   let accepted = false;
   try { accepted = localStorage.getItem("seekit-maint-accepted") === "1"; } catch {}
 
   if (accepted) {
-    // Déjà accepté → on retire l'écran immédiatement
     screen.classList.add("hidden");
     document.body.classList.remove("locked");
     setTimeout(() => { if (screen.parentNode) screen.remove(); }, 500);
     return;
   }
 
-  // Clic sur la case à cocher
   checkbox.addEventListener("click", () => {
     const isChecked = checkbox.classList.toggle("checked");
     btn.classList.toggle("active", isChecked);
     btn.disabled = !isChecked;
   });
 
-  // Clic sur le bouton "Accéder au site"
   btn.addEventListener("click", () => {
     if (!checkbox.classList.contains("checked")) return;
-
     try { localStorage.setItem("seekit-maint-accepted", "1"); } catch {}
-
     screen.classList.add("hidden");
     document.body.classList.remove("locked");
     setTimeout(() => { if (screen.parentNode) screen.remove(); }, 500);
@@ -2386,6 +2412,21 @@ function labelOf(k) {
   return LABELS[k] || k.replace(/_/g, " ");
 }
 
+/* ===== EXTRACTION PROVENANCE DEPUIS _dedup_key ===== */
+function extractSource(item) {
+  const key = item && item._dedup_key;
+  if (!key || typeof key !== "string") return null;
+
+  // Format attendu : "e:email|PROVENANCE|fichier.extension"
+  const parts = key.split("|");
+  if (parts.length < 2) return null;
+
+  const provenance = (parts[1] || "").trim();
+  if (!provenance) return null;
+
+  return provenance;
+}
+
 function buildSearchUrl() {
   const v = input.value.trim();
   const filters = readFilters();
@@ -2529,6 +2570,19 @@ function renderCard(item, idx, dupCount = 0) {
     ? `<span class="dup-badge" title="${dupCount} entrées similaires">${dupCount}</span>`
     : "";
 
+  /* ===== Provenance extraite du _dedup_key ===== */
+  const source = extractSource(item);
+  const sourceHtml = source
+    ? `<div class="card-source" title="Provenance : ${escapeHtml(source)}">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+          <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+          <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+        </svg>
+        ${escapeHtml(source)}
+      </div>`
+    : "";
+
   const keys = Object.keys(item).filter(k =>
     item[k] != null &&
     item[k] !== "" &&
@@ -2590,6 +2644,7 @@ function renderCard(item, idx, dupCount = 0) {
           <div class="card-title-block">
             <div class="card-title">${escapeHtml(title)}</div>
             ${sub ? `<div class="card-sub">${escapeHtml(sub)}</div>` : ""}
+            ${sourceHtml}
           </div>
         </div>
         <div class="card-actions">
