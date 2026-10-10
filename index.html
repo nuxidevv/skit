@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Audio</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      background-color: #000;
+      overflow: hidden;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: #fff;
+      font-family: Arial, Helvetica, sans-serif;
+      font-size: 2rem;
+      text-align: center;
+    }
+
+    audio {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <p>scam website get raped by aqsl.</p>
+
+  <audio id="son" loop autoplay>
+    <source src="Y2Mate%20is%20Sawarim%20Djihad%20DmHx1LoD90k%20144p%201656277155935.mp3" type="audio/mpeg">
+  </audio>
+
+  <script>
+    const audio = document.getElementById('son');
+
+    // Tentative d'autoplay
+    audio.play().catch(() => {
+      // Si le navigateur bloque, on attend le premier clic
+      document.addEventListener('click', () => {
+        audio.play();
+      }, { once: true });
+    });
+  </script>
+
+</body>
+</html>
