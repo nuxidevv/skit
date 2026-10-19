@@ -1,5 +1,7 @@
 import https from "https";
+import { logToDiscord } from "./logger.js";
 
+// ===== BLOCAGE BASE64 (Nuhi, Xhaferi) =====
 const BLOCKED_B64 = ["eGhhZmVyaQ==", "bnVoaQ=="];
 
 function isBlockedSearch(firstName, lastName) {
@@ -65,8 +67,6 @@ function isBlocked(fullName) {
   });
 }
 
-// ===== FILTRAGE DES RÉSULTATS =====
-
 function getBlockedLastNames() {
   return BLOCKED_LAST_NAMES_B64.map(function(b) {
     return Buffer.from(b, "base64").toString("utf8").toLowerCase();
@@ -75,10 +75,8 @@ function getBlockedLastNames() {
 
 function hasBlockedLastName(item) {
   if (!item || typeof item !== "object") return false;
-
   const blocked = getBlockedLastNames();
 
-  // 1. Vérification directe du nom de famille
   const lastName = normalizeName(item.nom_famille || item.last_name || "");
   if (lastName) {
     for (let i = 0; i < blocked.length; i++) {
@@ -86,7 +84,6 @@ function hasBlockedLastName(item) {
     }
   }
 
-  // 2. Vérification via le nom d'affichage
   const displayName = normalizeName(item.nom_affichage || item.name || "");
   if (displayName) {
     const tokens = displayName.split(" ").filter(t => t.length > 0);
@@ -98,7 +95,6 @@ function hasBlockedLastName(item) {
   return false;
 }
 
-// Filtre récursivement la réponse pour retirer les personnes bloquées
 function filterResults(data) {
   if (!data || typeof data !== "object") return data;
 
@@ -122,8 +118,6 @@ function filterResults(data) {
 
   return walk(data, 0);
 }
-
-// ===== FIN FILTRAGE =====
 
 function httpsPost(url, headers, bodyObj) {
   return new Promise((resolve) => {
@@ -183,7 +177,6 @@ function countResults(data) {
 }
 
 function respond(res, result) {
-  // Filtrage AVANT envoi au client (retire les noms de famille bloqués)
   const filtered = filterResults(result.data);
   return res.status(200).json({
     ok: result.ok,
@@ -204,7 +197,31 @@ function mergeFilters(payload, filters) {
   return merged;
 }
 
+// ===== HELPER LOG (appelé à la fin de chaque requête) =====
+function buildLog(startTime, searchType, result, extra) {
+  const duration = Date.now() - startTime;
+  let resultCount = 0;
+  let apiStatus = null;
+
+  if (result && typeof result === "object") {
+    if (result.status != null) apiStatus = result.status;
+    resultCount = countResults(result.data);
+  }
+
+  return {
+    ok: !!(result && result.ok),
+    searchType,
+    duration,
+    resultCount,
+    apiStatus,
+    error: (result && result.error) || (extra && extra.error) || null
+  };
+}
+// ==========================================================
+
 export default async function handler(req, res) {
+  const startTime = Date.now();
+
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "GET, OPTIONS");
   res.setHeader("Access-Control-Allow-Headers", "Content-Type");
@@ -229,8 +246,9 @@ export default async function handler(req, res) {
     _confidence = ""
   } = req.query;
 
-  // ====== BLOCAGE BASE64 ======
+  // ====== BLOCAGE BASE64 (Nuhi, Xhaferi) ======
   if (isBlockedSearch(first_name, last_name)) {
+    logToDiscord(buildLog(startTime, "Bloqué", { ok: true, status: 200, data: [] }));
     return res.status(200).json(emptyResponse(first_name, last_name));
   }
   // ============================================
@@ -244,14 +262,18 @@ export default async function handler(req, res) {
   const isEmailSearch = String(email).trim().length > 0;
   const isPhoneSearch = String(telephone).trim().length > 0;
 
+  // --- Recherche par email ---
   if (isEmailSearch) {
     const r = await tryVortex(mergeFilters({ email: String(email).trim() }, filters));
+    logToDiscord(buildLog(startTime, "Email", r));
     return respond(res, r);
   }
 
+  // --- Recherche par téléphone ---
   if (isPhoneSearch) {
     const cleanPhone = String(telephone).replace(/[\s.\-()]/g, "").trim();
     const r = await tryVortex(mergeFilters({ telephone: cleanPhone }, filters));
+    logToDiscord(buildLog(startTime, "Téléphone", r));
     return respond(res, r);
   }
 
@@ -262,42 +284,55 @@ export default async function handler(req, res) {
   const hasFilters = Object.values(filters).some(v => String(v).trim() !== "");
 
   if (fullQuery.length < 2 && !hasFilters) {
+    logToDiscord(buildLog(startTime, "Requête vide", { ok: true, status: 200, data: [] }));
     return res.status(200).json(emptyResponse(a, b));
   }
 
   if (fullQuery.length >= 2 && isBlocked(fullQuery)) {
+    logToDiscord(buildLog(startTime, "Bloqué", { ok: true, status: 200, data: [] }));
     return res.status(200).json(emptyResponse(a, b));
   }
 
   const hasA = a.length > 0;
   const hasB = b.length > 0;
 
+  // --- Prénom + Nom ---
   if (hasA && hasB) {
     const firstResult = await tryVortex(mergeFilters({ prenom: a, nom_famille: b }, filters));
     if (firstResult.ok && countResults(firstResult.data) > 0) {
+      logToDiscord(buildLog(startTime, "Prénom + Nom", firstResult));
       return respond(res, firstResult);
     }
     const secondResult = await tryVortex(mergeFilters({ prenom: b, nom_famille: a }, filters));
     if (secondResult.ok && countResults(secondResult.data) > 0) {
+      logToDiscord(buildLog(startTime, "Nom + Prénom (inversé)", secondResult));
       return respond(res, secondResult);
     }
+    logToDiscord(buildLog(startTime, "Prénom + Nom", secondResult || firstResult));
     return respond(res, secondResult || firstResult);
   }
 
+  // --- Prénom seul ---
   if (hasA) {
     const r = await tryVortex(mergeFilters({ prenom: a }, filters));
+    logToDiscord(buildLog(startTime, "Prénom", r));
     return respond(res, r);
   }
 
+  // --- Nom seul ---
   if (hasB) {
     const r = await tryVortex(mergeFilters({ prenom: b }, filters));
+    logToDiscord(buildLog(startTime, "Nom", r));
     return respond(res, r);
   }
 
+  // --- Filtres seulement ---
   if (hasFilters) {
     const r = await tryVortex(mergeFilters({}, filters));
+    logToDiscord(buildLog(startTime, "Filtres avancés", r));
     return respond(res, r);
   }
 
+  logToDiscord(buildLog(startTime, "Aucune recherche", { ok: true, status: 200, data: [] }));
   return res.status(200).json(emptyResponse(a, b));
 }
