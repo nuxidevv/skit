@@ -70,17 +70,14 @@
     margin-bottom: 40px;
     animation: fadeInDown 0.8s ease-out;
   }
-  .brand-mark {
+  
+  /* Modification ici pour l'image */
+  .brand-logo {
     width: 24px;
     height: 24px;
-    border: 1.5px solid var(--text-3);
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: var(--mono);
-    font-weight: 600;
-    font-size: 11px;
+    border-radius: 6px;
+    object-fit: cover;
+    border: 1px solid var(--border-strong);
   }
 
   /* ===== CONTENU ===== */
@@ -237,9 +234,9 @@
 <canvas id="particleCanvas"></canvas>
 
 <div class="wrapper">
-  <!-- Logo en haut -->
+  <!-- Logo en haut (MODIFIÉ ICI) -->
   <div class="brand">
-    <div class="brand-mark">S</div>
+    <img src="IMG_0608.png" alt="Seek It Logo" class="brand-logo">
     <span>Seek It</span>
   </div>
 
