@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Seek It — Fin</title>
+<title>Seek It — Fin de l'aventure</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
@@ -19,11 +19,8 @@
     --text-2: #a0a0a8;
     --text-3: #6a6a72;
     --accent: #00c46a;
-    --accent-soft: rgba(0,196,106,0.10);
-    --accent-border: rgba(0,196,106,0.35);
     --discord: #5865F2;
     --discord-hover: #4752c4;
-    --radius: 14px;
     --radius-pill: 100px;
     --mono: 'JetBrains Mono', ui-monospace, monospace;
   }
@@ -33,7 +30,7 @@
     background: var(--bg);
     color: var(--text);
     font-family: 'Poppins', -apple-system, sans-serif;
-    overflow: hidden; /* Empêche le scroll inutile */
+    overflow: hidden;
     -webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: transparent;
   }
@@ -58,7 +55,7 @@
     justify-content: center;
     padding: 24px;
     text-align: center;
-    overflow-y: auto; /* Au cas où sur petit écran */
+    overflow-y: auto;
   }
 
   /* ===== LOGO / HEADER ===== */
@@ -91,7 +88,7 @@
     font-size: clamp(2rem, 6vw, 3.5rem);
     font-weight: 800;
     letter-spacing: -0.04em;
-    line-height: 1.1;
+    line-height: 1.15;
     margin-bottom: 24px;
     animation: fadeInUp 0.8s ease-out 0.1s backwards;
   }
@@ -246,9 +243,8 @@
     <span>Seek It</span>
   </div>
 
-  <!-- Titre principal -->
-  <h1>Seek It a fermé
-  <span class="strike">ses portes</span><br>définitivement.</h1>
+  <!-- Titre principal (MODIFIÉ ICI) -->
+  <h1>Seek It a fermé<br><span class="strike">ses portes définitivement.</span></h1>
 
   <!-- Sous-titre -->
   <p class="subtitle">
@@ -279,7 +275,7 @@
 </div>
 
 <script>
-  /* ===== PARTICULES QUI TOMBENT (identique à l'ancien site) ===== */
+  /* ===== PARTICULES QUI TOMBENT ===== */
   (function fallingParticles() {
     const canvas = document.getElementById("particleCanvas");
     if (!canvas) return;
@@ -288,7 +284,7 @@
     let w, h, dpr;
     let particles = [];
     let rafId = null;
-    const COUNT = 60; // Un peu moins pour la page sobre
+    const COUNT = 60;
     const SPEED_MIN = 0.15;
     const SPEED_MAX = 0.4;
     const SIZE_MIN = 0.5;
